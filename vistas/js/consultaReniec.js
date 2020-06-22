@@ -13,7 +13,7 @@ $(function () {
                 var datos = eval(datos_dni);
 
 //               $('#nuevoNombre').text(datos[3]+" "+datos[1]+" "+datos[2]);
-                $('#nuevoNombre').val(datos[1]+" "+datos[2]+" "+datos[3]);
+                $('#nuevNombre').val(datos[1]+" "+datos[2]+" "+datos[3]);
                 console.log("respuesta",datos[1]+" "+datos[2]+" "+datos[3])
 
             }
@@ -25,7 +25,7 @@ $(function () {
 /*=============================================
  CONSULTAR BASE DE DATOS RENIEC TICKET  
  =============================================*/
- $(function () {
+/*  $(function () {
     $('#consultar').on('click', function () {
         var dni = $('#dniPaciente').val();
         var url = 'ajax/consultaReniec.ajax.php';
@@ -45,6 +45,6 @@ $(function () {
         return false;
     });
 });
-
+ */
 
 

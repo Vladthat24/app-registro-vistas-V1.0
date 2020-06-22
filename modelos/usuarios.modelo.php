@@ -126,8 +126,7 @@ class ModeloUsuarios {
         $stmt->bindParam(":piso", $datos["piso"], PDO::PARAM_STR);
         $stmt->bindParam(":password", $datos["password"], PDO::PARAM_STR);
         $stmt->bindParam(":idperfil",$datos["idperfil"],PDO::PARAM_INT);
-        $stmt->bindParam(":pe
-        rfil", $datos["perfil"], PDO::PARAM_STR);
+        $stmt->bindParam(":perfil", $datos["perfil"], PDO::PARAM_STR);
         $stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
         $stmt->bindParam(":usuario", $datos["usuario"], PDO::PARAM_STR);
 

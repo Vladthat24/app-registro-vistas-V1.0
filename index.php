@@ -16,6 +16,7 @@ require_once "controladores/reporteticket.controlador.php"; */
 
 require_once "modelos/usuarios.modelo.php";
 require_once "modelos/documento.modelo.php";
+
 /* require_once "modelos/categorias.modelo.php";
 require_once "modelos/ticket.modelo.php";
 require_once "modelos/clientes.modelo.php";

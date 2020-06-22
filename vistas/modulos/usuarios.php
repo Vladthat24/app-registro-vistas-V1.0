@@ -201,18 +201,18 @@ MODAL AGREGAR USUARIO
 
                         <div class="form-group">
 
-                            <div class="input-group ">
+                            <div class="input-group " >
 
-                                <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
+                                <span class="input-group-addon"><i class="fa fa-id-card"></i></span> 
 
-                                <input type="text" class="form-control input-lx num_documentoClase" maxlength="8" id="num_documentoAtributo" name="nuevNum_documento" placeholder="Documento de Identidad" required>
+                                <input type="text" class="form-control input-lx dni" maxlength="8"  id="dni" name="dni" placeholder="Documento de Identidad" required>
 
 
                                 <span class="input-group-addon">
                                     <button type="button" id="consultar" class="btn btn-primary btn-xs consultar">
                                         Consultar
                                     </button>
-                                </span>
+                                </span>                                
 
                             </div>
 
