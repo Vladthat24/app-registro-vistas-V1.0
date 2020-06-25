@@ -56,6 +56,7 @@
                             <th>Perfil</th>
                             <th>Estado</th>
                             <th>Último login</th>
+                            <th>Fecha</th>
                             <th>Acciones</th>
 
                         </tr>
@@ -105,6 +106,7 @@
                             }
 
                             echo '<td>' . $value["ultimo_login"] . '</td>
+                                    <td>' . $value["fecha"] . '</td>
 
                                 <td>
 
@@ -175,7 +177,7 @@ MODAL AGREGAR USUARIO
 
                                 <span class="input-group-addon"><i class="fa fa-th"></i></span>
 
-                                <select class="form-control input-lx" id="nuevDocumento" name="nuevDocumento" required>
+                                <select class="form-control input-lx" id="nuevTipoDocumento" name="nuevTipoDocumento" required>
 
                                     <option value="">Tipo de Documento</option>
 
@@ -193,6 +195,7 @@ MODAL AGREGAR USUARIO
 
                                 </select>
 
+
                             </div>
 
                         </div>
@@ -201,18 +204,18 @@ MODAL AGREGAR USUARIO
 
                         <div class="form-group">
 
-                            <div class="input-group " >
+                            <div class="input-group ">
 
-                                <span class="input-group-addon"><i class="fa fa-id-card"></i></span> 
+                                <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
 
-                                <input type="text" class="form-control input-lx dni" maxlength="8"  id="dni" name="dni" placeholder="Documento de Identidad" required>
+                                <input type="text" class="form-control input-lx dni" maxlength="8" id="dni" name="dni" placeholder="Documento de Identidad" required>
 
 
                                 <span class="input-group-addon">
                                     <button type="button" id="consultar" class="btn btn-primary btn-xs consultar">
                                         Consultar
                                     </button>
-                                </span>                                
+                                </span>
 
                             </div>
 
@@ -238,7 +241,7 @@ MODAL AGREGAR USUARIO
 
                                 <span class="input-group-addon"><i class="fa fa-building"></i></span>
 
-                                <input type="text" class="form-control input-lx" name="nuevoOficina" placeholder="Equipo de trabajo funcional" required>
+                                <input type="text" class="form-control input-lx" name="nuevOficina" placeholder="Equipo de trabajo funcional" required>
 
                             </div>
 
@@ -250,7 +253,7 @@ MODAL AGREGAR USUARIO
 
                                 <span class="input-group-addon"><i class="fa fa-briefcase"></i></span>
 
-                                <input type="text" class="form-control input-lx" name="nuevoArea" placeholder="Área de trabajo" required>
+                                <input type="text" class="form-control input-lx" name="nuevArea" placeholder="Área de trabajo" required>
 
                             </div>
 
@@ -262,7 +265,7 @@ MODAL AGREGAR USUARIO
 
                                 <span class="input-group-addon"><i class="fa fa-briefcase"></i></span>
 
-                                <input type="text" class="form-control input-lx" name="nuevoCargo" placeholder="Cargo" required>
+                                <input type="text" class="form-control input-lx" name="nuevCargo" placeholder="Cargo" required>
 
                             </div>
 
@@ -275,7 +278,7 @@ MODAL AGREGAR USUARIO
 
                                 <span class="input-group-addon"><i class="fa fa-phone"></i></span>
 
-                                <input type="text" class="form-control input-lx celularClase" name="nuevoCel" placeholder="Celular" required>
+                                <input type="text" class="form-control input-lx celularClase" name="nuevCel" placeholder="Celular" required>
 
                             </div>
 
@@ -290,7 +293,7 @@ MODAL AGREGAR USUARIO
 
                                 <span class="input-group-addon"><i class="fa fa-building"></i></span>
 
-                                <select class="form-control input-lx" name="nuevoSede">
+                                <select class="form-control input-lx" name="nuevSede">
 
                                     <option value="">Selecionar Sede</option>
 
@@ -312,7 +315,7 @@ MODAL AGREGAR USUARIO
 
                                 <span class="input-group-addon"><i class="fa fa-angle-double-up"></i></span>
 
-                                <select class="form-control input-lx" name="nuevoPiso">
+                                <select class="form-control input-lx" name="nuevPiso">
 
                                     <option value="">Selecionar piso</option>
 
@@ -336,7 +339,7 @@ MODAL AGREGAR USUARIO
 
                                 <span class="input-group-addon"><i class="fa fa-key"></i></span>
 
-                                <input type="text" class="form-control input-lx" name="nuevoUsuario" placeholder="Ingresar usuario" id="nuevoUsuario" required>
+                                <input type="text" class="form-control input-lx" name="nuevUsuario" placeholder="Ingresar usuario" id="nuevoUsuario" required>
 
                             </div>
 
@@ -350,7 +353,7 @@ MODAL AGREGAR USUARIO
 
                                 <span class="input-group-addon"><i class="fa fa-lock"></i></span>
 
-                                <input type="password" class="form-control input-lx" name="nuevoPassword" placeholder="Ingresar contraseña" required>
+                                <input type="password" class="form-control input-lx" name="nuevPassword" placeholder="Ingresar contraseña" required>
 
                             </div>
 
@@ -364,21 +367,39 @@ MODAL AGREGAR USUARIO
 
                                 <span class="input-group-addon"><i class="fa fa-users"></i></span>
 
-                                <select class="form-control input-lx" name="nuevoPerfil">
+                                <select class="form-control input-lx" name="nuevPerfil">
 
                                     <option value="">Selecionar perfil</option>
 
-                                    <option value="Usuario">Usuario</option>
+                                    <?php
+                                    $item = null;
+                                    $valor = null;
 
-                                    <option value="Informatico">Informatico</option>
+                                    $perfil = ControladorPerfil::ctrMostrarPerfil($item, $valor);
 
-                                    <option value="Administrador">Administrador</option>
+                                    foreach ($perfil as $key => $value) {
 
+                                        echo '<option value="' . $value["perfil"] . '">' . $value["perfil"] . '</option>';
+                                    }
+                                    ?>
                                 </select>
+                            </div>
+
+                        </div>
+
+                        <!-- ENTRADA PARA FECHA DE REGISTRO -->
+                        <div class="form-group">
+
+                            <div class="input-group">
+
+                                <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+
+                                <input type="date" class="form-control input-lx" name="nuevFecha" required>
 
                             </div>
 
                         </div>
+
                         <!-- ENTRADA PARA SUBIR FOTO -->
 
                         <div class="form-group">
@@ -454,7 +475,35 @@ MODAL EDITAR USUARIO
 
                     <div class="box-body">
 
+                        <!-- ENTRADA PARA SELECCIONAR DOCUMENTO DEL REGISTRO-->
 
+                        <div class="form-group">
+
+                            <div class="input-group">
+
+                                <span class="input-group-addon"><i class="fa fa-th"></i></span>
+
+                                <select class="form-control input-lx" name="editarTipoDocumento" required>
+
+                                    <option id="editarTipoDocumento">Tipo de Documento</option>
+
+                                    <?php
+                                    $item = null;
+                                    $valor = null;
+
+                                    $documento = ControladorDocumento::ctrMostrarDocumento($item, $valor);
+
+                                    foreach ($documento as $key => $value) {
+
+                                        echo '<option value="' . $value["tipo_documento"] . '">' . $value["tipo_documento"] . '</option>';
+                                    }
+                                    ?>
+
+                                </select>
+
+                            </div>
+
+                        </div>
                         <!-- ENTRADA PARA DNI -->
 
                         <div class="form-group">
@@ -568,7 +617,6 @@ MODAL EDITAR USUARIO
                                     <option value="" id="editarPiso"></option>
 
                                     <option value="1">1</option>
-
                                     <option value="2">2</option>
                                     <option value="3">3</option>
                                     <option value="4">4</option>
@@ -610,56 +658,57 @@ MODAL EDITAR USUARIO
                         </div>
 
                         <!-- ENTRADA PARA SELECCIONAR SU PERFIL -->
-                        <?php if ($_SESSION["perfil"] !== "Administrador") { ?>
-                            <div class="form-group hidden">
 
-                                <div class="input-group">
+                        <div class="form-group">
 
-                                    <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                            <div class="input-group">
 
-                                    <select class="form-control input-lx" name="editarPerfil">
+                                <span class="input-group-addon"><i class="fa fa-users"></i></span>
 
-                                        <option value="" id="editarPerfil"></option>
-                                        <option value="Usuario">Usuario</option>
+                                <select class="form-control input-lx" name="editarPerfil">
 
-                                        <option value="Informatico">Informatico</option>
+                                    <option id="editarPerfil"></option>
+                                    <?php
+                                    $item = null;
+                                    $valor = null;
 
-                                        <option value="Administrador">Administrador</option>
+                                    $perfil = ControladorPerfil::ctrMostrarPerfil($item, $valor);
 
-                                    </select>
+                                    foreach ($perfil as $key => $value) {
 
-                                </div>
+                                        echo '<option value="' . $value["perfil"] . '">' . $value["perfil"] . '</option>';
+                                    }
+                                    ?>
 
-                            </div>
-                        <?php } else { ?>
-                            <div class="form-group hidden">
-
-                                <div class="input-group">
-
-                                    <span class="input-group-addon"><i class="fa fa-users"></i></span>
-
-                                    <select class="form-control input-lx" name="editarPerfil">
-
-                                        <option value="" id="editarPerfil"></option>
-                                        <option value="Usuario">Usuario</option>
-
-                                        <option value="Informatico">Informatico</option>
-
-                                        <option value="Administrador">Administrador</option>
-
-                                    </select>
-
-                                </div>
+                                </select>
 
                             </div>
-                        <?php } ?>
+
+                        </div>
+
+
+                        <!-- ENTRADA PARA FECHA DE REGISTRO -->
+                        <div class="form-group">
+
+                            <div class="input-group">
+
+                                <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+
+                                <input type="date" class="form-control input-lx" id="editarFecha" name="editarFecha" required>
+
+                            </div>
+
+                        </div>
+
+
+
                         <!-- ENTRADA PARA SUBIR FOTO -->
 
                         <div class="form-group">
 
                             <div class="panel">SUBIR FOTO</div>
 
-                            <input type="file" class="nuevaFoto" name="editarFoto">
+                            <input type="file" class="nuevFoto" name="editarFoto">
 
                             <p class="help-block">Peso máximo de la foto 2MB</p>
 

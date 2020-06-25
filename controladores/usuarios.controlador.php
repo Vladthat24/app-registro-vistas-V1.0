@@ -34,14 +34,9 @@ class ControladorUsuarios
                         $_SESSION["iniciarSesion"] = "ok";
                         $_SESSION["id"] = $respuesta["id"];
 
-                        $_SESSION["num_documento"] = $respuesta["num_documento"];
                         $_SESSION["nombre"] = $respuesta["nombre"];
                         $_SESSION["oficina"] = $respuesta["oficina"];
                         $_SESSION["area"] = $respuesta["area"];
-                        $_SESSION["cargo"] = $respuesta["cargo"];
-                        $_SESSION["cel"] = $respuesta["cel"];
-                        $_SESSION["sede"] = $respuesta["sede"];
-                        $_SESSION["piso"] = $respuesta["piso"];
                         $_SESSION["usuario"] = $respuesta["usuario"];
                         $_SESSION["foto"] = $respuesta["foto"];
                         $_SESSION["perfil"] = $respuesta["perfil"];
@@ -72,6 +67,10 @@ class ControladorUsuarios
                                         window.location = "inicio";
 
                                 </script>';
+                        } else {
+                            echo '<script>
+                                alert("Error de Login Modelo Actualizar Usuario");
+                            </script>';
                         }
                     } else {
 
@@ -176,22 +175,24 @@ class ControladorUsuarios
 
                 $encriptar = crypt($_POST["nuevPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
 
+                var_dump($_POST["nuevFecha"]);
+
                 $datos = array(
-                    "idtipo_documento" => $_POST["nuevIdtipo_documento"],
-                    "tipo_documento" => $_POST["nuevTipo_documento"],
-                    "num_documento" => $_POST["nuevNum_documento"],
+
+                    "tipo_documento" => $_POST["nuevTipoDocumento"],
+                    "num_documento" => $_POST["dni"],
                     "nombre" => $_POST["nuevNombre"],
                     "oficina" => $_POST["nuevOficina"],
                     "area" => $_POST["nuevArea"],
                     "cargo" => $_POST["nuevCargo"],
                     "cel" => $_POST["nuevCel"],
                     "sede" => $_POST["nuevSede"],
-                    "idperfil"=>$_POST["nuevIdperfil"],
-                    "perfil" => $_POST["nuevPerfil"],
                     "piso" => $_POST["nuevPiso"],
                     "usuario" => $_POST["nuevUsuario"],
                     "password" => $encriptar,
-                    "foto" => $ruta
+                    "perfil" => $_POST["nuevPerfil"],
+                    "foto" => $ruta,
+                    "fecha" => $_POST["nuevFecha"]
                 );
 
                 $respuesta = ModeloUsuarios::mdlIngresarUsuario($tabla, $datos);
@@ -219,11 +220,28 @@ class ControladorUsuarios
 				
 
 					</script>';
+                } else {
+                    echo '<script>
+
+					swal({
+
+						type: "success",
+						title: "¡Error al Crear un Usuario, Contactar con el Administrador!",
+						showConfirmButton: true,
+						confirmButtonText: "Cerrar"
+
+					}).then(function(result){
+
+
+					});
+				
+
+					</script>';
                 }
             } else {
 
                 echo '<script>
-
+                    
 					swal({
 
 						type: "error",
@@ -394,8 +412,8 @@ class ControladorUsuarios
 
                 $datos = array(
 
-                    "idtipo_documento"=>$_POST["editarTipo_documento"],
-                    "tipo_documento"=>$_POST["editarTipo_documento"],
+                    
+                    "tipo_documento" => $_POST["editarTipoDocumento"],
                     "num_documento" => $_POST["editarDni"],
                     "nombre" => $_POST["editarNombre"],
                     "oficina" => $_POST["editarOficina"],
@@ -403,12 +421,13 @@ class ControladorUsuarios
                     "cargo" => $_POST["editarCargo"],
                     "cel" => $_POST["editarCel"],
                     "sede" => $_POST["editarSede"],
-                    "idperfil"=>$_POST["editarIdPerfil"],
-                    "perfil" => $_POST["editarPerfil"],
                     "piso" => $_POST["editarPiso"],
+                    "perfil" => $_POST["editarPerfil"],
+                    
                     "usuario" => $_POST["editarUsuario"],
                     "password" => $encriptar,
-                    "foto" => $ruta
+                    "foto" => $ruta,
+                    "fecha" => $_POST["editarFecha"]
                 );
 
                 $respuesta = ModeloUsuarios::mdlEditarUsuario($tabla, $datos);
@@ -463,7 +482,7 @@ class ControladorUsuarios
 
         if (isset($_GET["idUsuario"])) {
 
-            $tabla = "usuarios";
+            $tabla = "Tap_Usuario";
             $datos = $_GET["idUsuario"];
 
             if ($_GET["fotoUsuario"] != "") {

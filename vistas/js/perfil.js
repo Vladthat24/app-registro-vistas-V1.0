@@ -1,15 +1,15 @@
 /*=============================================
-EDITAR DOCUMENTO
+EDITAR PERFIL
 =============================================*/
-$(".tablas").on("click", ".btnEditarDocumento", function(){
+$(".tablas").on("click", ".btnEditarPerfil", function(){
 
-	var idDocumento = $(this).attr("idDocumento");
+	var idPerfil = $(this).attr("idPerfil");
 
 	var datos = new FormData();
-	datos.append("idDocumento", idDocumento);
+	datos.append("idPerfil", idPerfil);
 
 	$.ajax({
-		url: "ajax/documento.ajax.php",
+		url: "ajax/perfil.ajax.php",
 		method: "POST",
       	data: datos,
       	cache: false,
@@ -18,8 +18,8 @@ $(".tablas").on("click", ".btnEditarDocumento", function(){
      	dataType:"json",
      	success: function(respuesta){
 
-     		$("#editarDocumento").val(respuesta["tipo_documento"]);
-     		$("#idDocumento").val(respuesta["id"]);
+     		$("#editarPerfil").val(respuesta["perfil"]);
+     		$("#idPerfil").val(respuesta["id"]);
 
      	}
 
@@ -28,12 +28,13 @@ $(".tablas").on("click", ".btnEditarDocumento", function(){
 
 })
 
-/*=============================================
-ELIMINAR DOCUMENTO
-=============================================*/
-$(".tablas").on("click", ".btnEliminarDocumento", function(){
 
-	 var idDocumento = $(this).attr("idDocumento");
+/*=============================================
+ELIMINAR PERFIL
+=============================================*/
+$(".tablas").on("click", ".btnEliminarPerfil", function(){
+
+	 var idPerfil = $(this).attr("idPerfil");
 
 	 swal({
 	 	title: '¿Está seguro de borrar la categoría?',
@@ -43,12 +44,12 @@ $(".tablas").on("click", ".btnEliminarDocumento", function(){
 	 	confirmButtonColor: '#3085d6',
 	 	cancelButtonColor: '#d33',
 	 	cancelButtonText: 'Cancelar',
-	 	confirmButtonText: 'Si, borrar documento!'
+	 	confirmButtonText: 'Si, borrar perfil!'
 	 }).then(function(result){
 
 	 	if(result.value){
 
-	 		window.location = "index.php?ruta=documento&idDocumento="+idDocumento;
+	 		window.location = "index.php?ruta=perfil&idPerfil="+idPerfil;
 
 	 	}
 

@@ -67,23 +67,36 @@ $(".tablas").on("click", ".btnEditarUsuario", function () {
         processData: false,
         dataType: "json",
         success: function (respuesta) {
-            
-            $("#editarDni").val(respuesta["dni"]);
+
+
+            console.log(respuesta["fecha"]);
+
+            $("#editarTipoDocumento").val(respuesta["tipo_documento"]);
+            $("#editarTipoDocumento").html(respuesta["tipo_documento"]);
+
+            $("#editarDni").val(respuesta["num_documento"]);
             $("#editarNombre").val(respuesta["nombre"]);
             $("#editarOficina").val(respuesta["oficina"]);
             $("#editarArea").val(respuesta["area"]);
             $("#editarCargo").val(respuesta["cargo"]);
             $("#editarCel").val(respuesta["cel"]);
+
             $("#editarSede").html(respuesta["sede"]);
             $("#editarSede").val(respuesta["sede"]);
+
             $("#editarPiso").html(respuesta["piso"]);
             $("#editarPiso").val(respuesta["piso"]);
-            $("#editarUsuario").val(respuesta["usuario"]);
+
             $("#editarPerfil").html(respuesta["perfil"]);
             $("#editarPerfil").val(respuesta["perfil"]);
+
+            $("#editarUsuario").val(respuesta["usuario"]);
+
             $("#fotoActual").val(respuesta["foto"]);
 
             $("#passwordActual").val(respuesta["password"]);
+            
+            $("#editarFecha").val(respuesta["fecha"]);
 
             if (respuesta["foto"] != "") {
 
@@ -199,7 +212,7 @@ $("#nuevUsuario").change(function () {
  REVISAR SI EL DNI DEL USUARIO YA ESTÁ REGISTRADO
  =============================================*/
 $("#num_documentoAtributo").change(function () {
-//$('#consultar').on('click', function () {
+    //$('#consultar').on('click', function () {
     $(".alert").remove();
 
     var dni = $('#num_documentoAtributo').val();

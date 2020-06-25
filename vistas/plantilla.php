@@ -128,6 +128,7 @@
         $_GET["ruta"] == "usuarios" ||
         $_GET["ruta"] == "categorias" ||
         $_GET["ruta"] == "documento" ||
+        $_GET["ruta"] == "perfil" ||
         $_GET["ruta"] == "soporte" ||
         $_GET["ruta"] == "estado" ||
         $_GET["ruta"] == "ticket" ||
@@ -176,7 +177,7 @@
   <script src="vistas/js/soporte.js"></script>
   <script src="vistas/js/estado.js"></script>
   <script src="vistas/js/distrito.js"></script>
-
+  <script src="vistas/js/perfil.js"></script>
 </body>
 
 </html>

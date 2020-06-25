@@ -116,6 +116,17 @@
 
             </li>
 
+            <li>
+
+            <a href="perfil">
+
+                <i class="fa fa-users"></i>
+                <span>Perfil</span>
+
+            </a>
+
+            </li>
+
             <li class="treeview">
 
                 <a href="#">
