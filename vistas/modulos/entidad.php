@@ -73,7 +73,7 @@
 
                         <button class="btn btn-danger btnEliminarEntidad" idEntidad="'.$value["id"].'"><i class="fa fa-times"></i></button>
 
-                      Entidad
+              
                     </td>
 
                   </tr>';

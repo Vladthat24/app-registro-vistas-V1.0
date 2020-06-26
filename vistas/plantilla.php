@@ -126,7 +126,7 @@
       if (
         $_GET["ruta"] == "inicio" ||
         $_GET["ruta"] == "usuarios" ||
-        $_GET["ruta"] == "categorias" ||
+        $_GET["ruta"] == "entidad" ||
         $_GET["ruta"] == "documento" ||
         $_GET["ruta"] == "perfil" ||
         $_GET["ruta"] == "soporte" ||
@@ -169,6 +169,7 @@
   <script src="vistas/js/plantilla.js"></script>
   <script src="vistas/js/usuarios.js"></script>
   <script src="vistas/js/categorias.js"></script>
+  <script src="vistas/js/entidad.js"></script>
   <script src="vistas/js/documento.js"></script>
   <script src="vistas/js/ticket.js"></script>
   <script src="vistas/js/clientes.js"></script>

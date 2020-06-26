@@ -10,7 +10,7 @@ class ModeloEntidad{
 
 	static public function mdlIngresarEntidad($tabla, $datos){
 
-		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(entidad,fecha_registro) VALUES (:entidad,now())");
+		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(entidad,fecha_registro) VALUES (:entidad,SYSDATETIME())");
 
 		$stmt->bindParam(":entidad", $datos, PDO::PARAM_STR);
 

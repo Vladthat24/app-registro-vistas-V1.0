@@ -76,30 +76,10 @@
 
             <li>
 
-                <a href="categorias">
+                <a href="entidad">
 
-                    <i class="fa fa-th"></i>
-                    <span>Categorías</span>
-
-                </a>
-
-            </li>
-            <li>
-
-                <a href="estado">
-
-                    <i class="fa fa-hourglass-end"></i>
-                    <span>Estado Paciente</span>
-
-                </a>
-
-            </li>
-            <li>
-
-                <a href="distrito">
-
-                    <i class="fa fa-map"></i>
-                    <span>Distrito</span>
+                    <i class="fa fa-university"></i>
+                    <span>Entidad</span>
 
                 </a>
 

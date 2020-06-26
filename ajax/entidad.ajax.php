@@ -14,7 +14,7 @@ class AjaxEntidad{
 	public function ajaxEditarEntidad(){
 
 		$item = "id";
-		$valor = $this->id;
+		$valor = $this->idEntidad;
 
 		$respuesta = ControladorEntidad::ctrMostrarEntidad($item, $valor);
 
@@ -22,6 +22,7 @@ class AjaxEntidad{
 
 	}
 }
+
 
 /*=============================================
 EDITAR ENTIDAD

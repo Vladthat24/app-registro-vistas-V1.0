@@ -67,9 +67,9 @@ class ModeloPerfil{
 
 	static public function mdlEditarPerfil($tabla, $datos){
 
-		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET perfil = :perfil WHERE id = :id");
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET entidad = :entidad WHERE id = :id");
 
-		$stmt -> bindParam(":perfil", $datos["perfil"], PDO::PARAM_STR);
+		$stmt -> bindParam(":entidad", $datos["entidad"], PDO::PARAM_STR);
 		$stmt -> bindParam(":id", $datos["id"], PDO::PARAM_INT);
 
 		if($stmt->execute()){
