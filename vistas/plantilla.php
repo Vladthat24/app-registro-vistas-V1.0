@@ -46,8 +46,8 @@
   <!-- iCheck for checkboxes and radio inputs -->
   <link rel="stylesheet" href="vistas/plugins/iCheck/all.css">
 
-   <!-- Daterange picker -->
-   <link rel="stylesheet" href="vistas/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+  <!-- Daterange picker -->
+  <link rel="stylesheet" href="vistas/bower_components/bootstrap-daterangepicker/daterangepicker.css">
 
   <!--=====================================
         PLUGINS DE JAVASCRIPT
@@ -126,13 +126,14 @@
       if (
         $_GET["ruta"] == "inicio" ||
         $_GET["ruta"] == "usuarios" ||
+        $_GET["ruta"] == "funcionario" ||
         $_GET["ruta"] == "entidad" ||
         $_GET["ruta"] == "documento" ||
         $_GET["ruta"] == "perfil" ||
         $_GET["ruta"] == "soporte" ||
         $_GET["ruta"] == "estado" ||
-        $_GET["ruta"] == "ticket" ||
-        $_GET["ruta"] == "reporteticket"||
+        $_GET["ruta"] == "registro" ||
+        $_GET["ruta"] == "reporteticket" ||
         $_GET["ruta"] == "clientes" ||
         $_GET["ruta"] == "ventas" ||
         $_GET["ruta"] == "crear-venta" ||
@@ -179,6 +180,7 @@
   <script src="vistas/js/estado.js"></script>
   <script src="vistas/js/distrito.js"></script>
   <script src="vistas/js/perfil.js"></script>
+  <script src="vistas/js/funcionario.js"></script>
 </body>
 
 </html>

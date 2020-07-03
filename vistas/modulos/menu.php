@@ -54,10 +54,10 @@
  
             <li>
 
-                <a href="ticket">
+                <a href="registro">
 
-                    <i class="fa fa-product-hunt"></i>
-                    <span>Paciente</span>
+                    <i class="fa fa-registered"></i>
+                    <span>Registro</span>
 
                 </a>
 
@@ -72,6 +72,17 @@
                 </a>
 
             </li>
+            <li>
+
+                <a href="funcionario">
+
+                    <i class="fa fa-universal-access"></i>
+                    <span>Funcionario</span>
+
+                </a>
+
+            </li>
+
 
 
             <li>

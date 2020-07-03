@@ -32,12 +32,12 @@ $("#actualizarReporte").click(function () {
 })
 
 /*=============================================
- CARGAR LA TABLA DINÁMICA DE TICKETS
+ CARGAR LA TABLA DINÁMICA DE REGISTRO
  =============================================*/
 function actualizarActivo() {
     $('.tablaTicket').DataTable({
 
-        "ajax": "ajax/datatable-ticket.ajax.php",
+        "ajax": "ajax/datatable-registro.ajax.php",
         "deferRender": true,
         "retrieve": true,
         "processing": true,

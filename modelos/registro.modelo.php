@@ -46,73 +46,22 @@ class ModeloRegistro
             return $stmt->fetch();
         } else {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item2 != :$item2 ORDER BY id DESC");
-
-            $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_INT);
-
-            $stmt->execute();
-
-            return $stmt->fetchAll();
-        }
-
-        $stmt->close();
-
-        $stmt = null;
-    }
-
-    static public function mdlMostrarRegistro_usuario($tabla, $item, $item2, $valor, $item3, $valor3)
-    {
-        //CAPTURAR DATOS PARA EL EDIT EN EL FORMULARIO
-        if ($item != null) {
-
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item ORDER BY id DESC");
-
-            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
-
-            $stmt->execute();
-
-            return $stmt->fetch();
-        } else {
-
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item2=:$item2 AND $item3 != :$item3 ORDER BY id DESC");
-
-            $stmt->bindParam(":" . $item2, $valor, PDO::PARAM_STR);
-            $stmt->bindParam(":" . $item3, $valor3, PDO::PARAM_INT);
-            $stmt->execute();
-
-            return $stmt->fetchAll();
-        }
-
-        $stmt->close();
-
-        $stmt = null;
-    }
-
-    static public function mdlMostrarRegistro_informatico($tabla, $item, $item2, $valor, $item3, $valor3)
-    {
-        //CAPTURAR DATOS PARA EL EDIT EN EL FORMULARIO
-        if ($item != null) {
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item ORDER BY id DESC");
-
-            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
-
-            $stmt->execute();
-
-            return $stmt->fetch();
-        } else {
-
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item2=:$item2 AND $item3 != :$item3 ORDER BY id DESC");
-
-            $stmt->bindParam(":" . $item2, $valor, PDO::PARAM_STR);
-            $stmt->bindParam(":" . $item3, $valor3, PDO::PARAM_INT);
+            $stmt = Conexion::conectar()->prepare("SELECT Tap_RegistroVisita.id as id,
+            Tap_Funcionario.num_documento as num_dni_funcionario,
+            Tap_Funcionario.nombre as nombre_funcionario,
+            Tap_Funcionario.cargo as cargo_funcionario,
+            Tap_Entidad.entidad as entidad_funcionario,
+            motivo,
+            fecha_ingreso,
+            fecha_salida,
+            usuario  FROM $tabla inner join Tap_Funcionario  on 
+            Tap_RegistroVisita.idfuncionario=Tap_Funcionario.id 
+            inner join Tap_Entidad on Tap_Funcionario.identidad=Tap_Entidad.id ORDER BY Tap_RegistroVisita.id DESC");
 
             $stmt->execute();
 
             return $stmt->fetchAll();
         }
-
-
-
 
         $stmt->close();
 

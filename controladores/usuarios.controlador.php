@@ -175,7 +175,7 @@ class ControladorUsuarios
 
                 $encriptar = crypt($_POST["nuevPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
 
-                var_dump($_POST["nuevFecha"]);
+                /* var_dump($_POST["nuevFecha"]); */
 
                 $datos = array(
 

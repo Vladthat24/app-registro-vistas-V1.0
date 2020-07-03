@@ -44,10 +44,9 @@
                 <button class="btn btn-success" style="margin-top:5px">Descargar reporte en Excel</button>
                 </a>
             </div>
-            <p style="color: red;">* SE REALIZARA UNA ACTUALIZACIÓN DEL SISTEMA, AGREGANDO EL TIPO DE DOCUMENTO - CANTIDAD DE FIEBRE-PAÍS DONDE VIAJO.</p>
-            <p style="color: red;">* SE ESTÁ VALIDANDO LOS CARACTERES DEL DNI(TIPO DE DOCUMENTO) HASTA 8 COMO MÁXIMO Y MÍNIMO, SIN EMBARGO, LOS DEMÁS TIPOS DE DOCUMENTO NO TIENEN LIMITE.</p>
-            <p style="color: red;">* SI TIENEN INCONSISTENCIA CON EL SISTEMA ESCRIBIR AL WHATSAPP : 917023454, YOSSHI CONDORI.</p>
+
             <strong>PACIENTES OBSERVADOS</strong>
+
             <div class="box-body" id="resultados">
 
                 <br>
@@ -59,124 +58,13 @@
 
                             <th style="width:10px">#</th>
                             <th>ACCIONES</th>
-                            <th>ESTADO</th>
-                            <th>Fecha</th>
-
-                            <th>Tipo Doc.</th>
-                            <th>Dni</th>
-                            <th>Nombre Paciente</th>
-                            <th>Edad del Paciente</th>
-                            <th>DireccionDelPaciente</th>
-                            <th>Establecimiento de Salud</th>
-                            <th>Distrito Seleccionado</th>
-                            <th>Telefono</th>
-                            <th>ComoAB</th>
-                            <th>Muestra</th>
-
-                            <th>Categoría</th>
-                            <th>Código</th>
-                            <th>Descripción del Problema</th>
-
-                            <th>FechaSintomas</th>
-                            <th>Sintomas</th>
-                            <th>Enfermedad</th>
-                            <th>Tos</th>
-                            <th>DolorGarganta</th>
-                            <th>Fiebre</th>
-                            <th>Fiebre Cantidad</th>
-                            <th>SecrecionNasal</th>
-                            <th>OtroSintomas</th>
-                            <th>Viaje</th>
-                            <th>Pais Viaje</th>
-                            <th>Num. Viaje</th>
-                            <th>ContactoPersonaSospechosa</th>
-                            <th>DatosPersonaSospechosa</th>
-                            <th>CelPersonaSospechosa</th>
-
+                            <th>Funcionario</th>
+                            <th>Cargo</th>
+                            <th>Entidad</th>
+                            <th>Motivo</th>
+                            <th>Fecha de Ingreso</th>
+                            <th>Fecha de Salida</th>
                             <th>Digitador</th>
-                            <th>Imagen</th>
-
-                        </tr>
-
-                    </thead>
-
-
-
-                </table>
-
-                <hr>
-                <strong>PACIENTES NEGATIVOS</strong>
-                <table class="table table-bordered table-striped dt-responsive tablaTicketInactivo tablaActualizar" width="100%">
-
-                    <thead>
-
-                        <tr>
-
-                            <th style="width:10px">#</th>
-                            <th>ACCIONES</th>
-                            <th>ESTADO<i style="color: red;">*</i></th>
-                            <th>Fecha</th>
-
-                            <th>Tipo Doc.<i style="color: red;">*</i></th>
-                            <th>Dni</th>
-                            <th>Nombre Paciente</th>
-                            <th>Sexo</th>
-                            <th>Edad Paciente</th>
-                            <th>País Natal</th>
-                            <th>Depart.</th>
-                            <th>Provincia</th>
-                            <th>Distrito<i style="color: red;">*</i></th>
-                            <th>Direccion P.</th>
-                            <th>Correo</th>
-                            <th>Telefono</th>
-
-                            <th>ContactoPersonaSospechosa</th>
-                            <th>DatosPersonaSospechosa</th>
-                            <th>CelPersonaSospechosa</th>
-                            <th>Viaje</th>
-                            <th>Pais Viaje</th>
-                            <th>Num. Viaje</th>
-                            <th>Fiebre</th>
-                            <th>Fiebre Cantidad</th>
-                            <th>Tos</th>
-                            <th>DolorGarganta</th>
-                            <th>Dificultad Respiratoria</th>
-                            <th>Congestion Nasal</th>
-                            <th>FechaSintomas</th>
-
-                            <th>Riesgo Adulto Mayor</th>
-                            <th>Riesgo niño</th>
-                            <th>Riesgo Gestante</th>
-                            <th>Riesgo Familiar</th>
-                            <th>Categoria de Casoi<i style="color: red;">*</i></th>
-                            <th>Observación</th>
-
-                            <th>Muestra Tomada</th>
-                            <th>Fecha Muestra</th>
-                            <th>Resultado Entregado</th>
-
-                            <th>Estado<i style="color: red;">*</i></th>
-
-                            <th>Dias Registrado</th>
-                            <th>Procedencia<i style="color: red;">*</i></th>
-                            <th>Personal de Salud</th>
-                            <th>Obesidad</th>
-                            <th>Enf. Pulmonar</th>
-                            <th>Diabetes</th>
-                            <th>Hipertencion</th>
-                            <th>Inmunodepresion</th>
-                            <th>Cancer</th>
-                            <th>Gestante Comorbilidad</th>
-                            <th>Mayor de 65</th>
-                            <th>Prioridad<i style="color: red;">*</i></th>
-                            <th>Latitud</th>
-                            <th>Longitud</th>
-                            <th>ID2</th>
-                            <th>LatyLong</th>
-                            <th>Observacion</th>
-                            
-                            <th>Digitador</th>
-                            <th>Imagen</th>
 
                         </tr>
 
@@ -195,7 +83,7 @@
 </div>
 
 <!--=====================================
-MODAL AGREGAR TICKET
+MODAL AGREGAR VISITA
 ======================================-->
 
 <div id="modalAgregarTicket" class="modal fade" role="dialog">
@@ -214,7 +102,7 @@ MODAL AGREGAR TICKET
 
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
 
-                    <h4 class="modal-title">Agregar Paciente</h4>
+                    <h4 class="modal-title">Agregar Visita</h4>
 
                 </div>
 
@@ -239,7 +127,7 @@ MODAL AGREGAR TICKET
                                 $item = null;
                                 $valor = null;
 
-                                $categorias = ControladorCategorias::ctrMostrarCategorias($item, $valor);
+                                $categorias = ControladorFuncionario::ctrMostrarFuncionario($item, $valor);
 
                                 foreach ($categorias as $key => $value) {
 
@@ -249,6 +137,8 @@ MODAL AGREGAR TICKET
 
                             </select>
 
+                            <span class="input-group-addon"><button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#modalAgregarFuncionario" data-dismiss="modal">Agregar cliente</button></span>
+                       
                         </div>
 
                     </div>

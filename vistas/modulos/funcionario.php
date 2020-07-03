@@ -42,12 +42,14 @@
                         <tr>
 
                             <th style="width:10px">#</th>
+                            <th>Acciones</th>
                             <th>Tipo Documento</th>
                             <th>N° Documento</th>
                             <th>Nombre</th>
                             <th>Entidad</th>
+                            <th>Cargo</th>
                             <th>Fecha</th>
-                            <th>Acciones</th>
+                            
 
                         </tr>
 
@@ -64,14 +66,33 @@
 
                         foreach ($funcionario as $key => $value) {
 
-                            echo ' <tr>
-                              <td>' . ($key + 1) . '</td>
+                            echo ' <tr>                            
+                            
+
+
+                              <td>' . ($key + 1) . '</td>                       
+                                <td>
+
+                                <div class="btn-group">
+                                    
+                                    <button class="btn btn-warning btnEditarFuncionario" idFuncionario="' . $value["id"] . '" data-toggle="modal" data-target="#modalEditarFuncionario"><i class="fa fa-pencil"></i></button>
+            
+                                    <button class="btn btn-danger btnEliminarFuncionario" idFuncionario="' . $value["id"] . '"><i class="fa fa-times"></i></button>
+            
+                                </div>  
+            
+                                </td>
                               <td>' . $value["tipo_documento"] . '</td>
                               <td>' . $value["num_documento"] . '</td>
                               <td>' . $value["nombre"] . '</td>
                               <td>' . $value["entidad"] . '</td>
                               <td>' . $value["cargo"] . '</td>
-                              <td>' . $value["fecha_registro"] . '</td>';
+                              <td>' . $value["fecha_registro"] . '</td>
+                              
+
+
+
+                            </tr>';
                         }
 
                         ?>
@@ -159,7 +180,7 @@ MODAL AGREGAR FUNCIONARIO
 
                                 <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
 
-                                <input type="text" class="form-control input-lx dni" maxlength="8" id="dni" name="dni" placeholder="Documento de Identidad" required>
+                                <input type="text" class="form-control input-lx dni validardni" maxlength="8" id="dni" name="dni" placeholder="Documento de Identidad" required>
 
 
                                 <span class="input-group-addon">
@@ -263,7 +284,7 @@ MODAL AGREGAR FUNCIONARIO
 MODAL EDITAR USUARIO
 ======================================-->
 
-<div id="modalEditarUsuario" class="modal fade" role="dialog">
+<div id="modalEditarFuncionario" class="modal fade" role="dialog">
 
     <div class="modal-dialog">
 
@@ -279,7 +300,7 @@ MODAL EDITAR USUARIO
 
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
 
-                    <h4 class="modal-title">Editar usuario</h4>
+                    <h4 class="modal-title">Editar Funcionario</h4>
 
                 </div>
 
@@ -291,6 +312,8 @@ MODAL EDITAR USUARIO
 
                     <div class="box-body">
 
+                    <input type="hidden"  name="idFuncionario" id="idFuncionario" required>
+
                         <!-- ENTRADA PARA SELECCIONAR DOCUMENTO DEL REGISTRO-->
 
                         <div class="form-group">
@@ -301,7 +324,7 @@ MODAL EDITAR USUARIO
 
                                 <select class="form-control input-lx" name="editarTipoDocumento" required>
 
-                                    <option id="editarTipoDocumento">Tipo de Documento</option>
+                                    <option id="editarTipoDocumento"></option>
 
                                     <?php
                                     $item = null;
@@ -311,7 +334,7 @@ MODAL EDITAR USUARIO
 
                                     foreach ($documento as $key => $value) {
 
-                                        echo '<option value="' . $value["tipo_documento"] . '">' . $value["tipo_documento"] . '</option>';
+                                        echo '<option value="' . $value["id"] . '">' . $value["tipo_documento"] . '</option>';
                                     }
                                     ?>
 
@@ -328,7 +351,7 @@ MODAL EDITAR USUARIO
 
                                 <span class="input-group-addon"><i class="fa fa-id-card"></i></span>
 
-                                <input type="text" class="form-control input-lx" maxlength="8" id="editarDni" name="editarDni" value="" readonly>
+                                <input type="text" class="form-control input-lx" maxlength="8" id="editarDni" name="editarDni" readonly>
 
                             </div>
 
@@ -342,36 +365,47 @@ MODAL EDITAR USUARIO
 
                                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
 
-                                <input type="text" class="form-control input-lx" id="editarNombre" name="editarNombre" value="" readonly>
+                                <input type="text" class="form-control input-lx" id="editarNombre" name="editarNombre" readonly>
 
                             </div>
 
                         </div>
-                        <!-- ENTRADA PARA OFICINA -->
+
+
+                        <!-- ENTRADA PARA SELECCIONAR SU ENTIDAD-->
+
                         <div class="form-group">
 
                             <div class="input-group">
 
-                                <span class="input-group-addon"><i class="fa fa-building"></i></span>
+                                <span class="input-group-addon"><i class="fa fa-users"></i></span>
 
-                                <input type="text" class="form-control input-lx" id="editarOficina" name="editarOficina" value="">
+                                <select class="form-control input-lx" name="editarEntidad">
+
+                                    <option id="editarEntidad"></option>
+                                    <?php
+                                    $item = null;
+                                    $valor = null;
+
+                                    $perfil = ControladorEntidad::ctrMostrarEntidad($item, $valor);
+
+                                    foreach ($perfil as $key => $value) {
+
+                                        echo '<option value="' . $value["id"] . '">' . $value["entidad"] . '</option>';
+                                    }
+                                    ?>
+
+                                </select>
 
                             </div>
 
                         </div>
 
-                        <!-- ENTRADA PARA AREA -->
-                        <div class="form-group">
 
-                            <div class="input-group">
 
-                                <span class="input-group-addon"><i class="fa fa-briefcase"></i></span>
 
-                                <input type="text" class="form-control input-lx" id="editarArea" name="editarArea">
 
-                            </div>
 
-                        </div>
                         <!-- ENTRADA PARA CARGO -->
                         <div class="form-group">
 
@@ -385,154 +419,11 @@ MODAL EDITAR USUARIO
 
                         </div>
 
-                        <!-- ENTRADA PARA CEL -->
-                        <div class="form-group">
 
-                            <div class="input-group">
 
-                                <span class="input-group-addon"><i class="fa fa-phone"></i></span>
 
-                                <input type="text" class="form-control input-lx celular" id="editarCel" name="editarCel" required>
 
-                            </div>
 
-                        </div>
-
-                        <!-- ENTRADA PARA SELECCIONAR SU SEDE -->
-
-                        <div class="form-group">
-
-                            <div class="input-group">
-
-                                <span class="input-group-addon"><i class="fa fa-building"></i></span>
-
-                                <select class="form-control input-lx" name="editarSede">
-
-                                    <option value="" id="editarSede"></option>
-
-                                    <option value="Pinillos">Pinillos</option>
-
-                                    <option value="Fap">Fap</option>
-
-                                </select>
-
-                            </div>
-
-                        </div>
-
-                        <!-- ENTRADA PARA SELECCIONAR SU PISO -->
-
-                        <div class="form-group">
-
-                            <div class="input-group">
-
-                                <span class="input-group-addon"><i class="fa fa-angle-double-up"></i></span>
-
-                                <select class="form-control input-lx" name="editarPiso">
-
-                                    <option value="" id="editarPiso"></option>
-
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="4(Palomar N°1)">4(Palomar N°1)</option>
-                                    <option value="5(Palomar N°2)">5(Palomar N°2)</option>
-
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- ENTRADA PARA EL USUARIO -->
-
-                        <div class="form-group">
-
-                            <div class="input-group">
-
-                                <span class="input-group-addon"><i class="fa fa-key"></i></span>
-
-                                <input type="text" class="form-control input-lx" id="editarUsuario" name="editarUsuario" value="" readonly>
-
-                            </div>
-
-                        </div>
-
-                        <!-- ENTRADA PARA LA CONTRASEÑA -->
-
-                        <div class="form-group">
-
-                            <div class="input-group">
-
-                                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-
-                                <input type="password" class="form-control input-lx" name="editarPassword" placeholder="Escriba la nueva contraseña">
-
-                                <input type="hidden" id="passwordActual" name="passwordActual">
-
-                            </div>
-
-                        </div>
-
-                        <!-- ENTRADA PARA SELECCIONAR SU PERFIL -->
-
-                        <div class="form-group">
-
-                            <div class="input-group">
-
-                                <span class="input-group-addon"><i class="fa fa-users"></i></span>
-
-                                <select class="form-control input-lx" name="editarPerfil">
-
-                                    <option id="editarPerfil"></option>
-                                    <?php
-                                    $item = null;
-                                    $valor = null;
-
-                                    $perfil = ControladorPerfil::ctrMostrarPerfil($item, $valor);
-
-                                    foreach ($perfil as $key => $value) {
-
-                                        echo '<option value="' . $value["perfil"] . '">' . $value["perfil"] . '</option>';
-                                    }
-                                    ?>
-
-                                </select>
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- ENTRADA PARA FECHA DE REGISTRO -->
-                        <div class="form-group">
-
-                            <div class="input-group">
-
-                                <span class="input-group-addon"><i class="fa fa-phone"></i></span>
-
-                                <input type="date" class="form-control input-lx" id="editarFecha" name="editarFecha" required>
-
-                            </div>
-
-                        </div>
-
-
-
-                        <!-- ENTRADA PARA SUBIR FOTO -->
-
-                        <div class="form-group">
-
-                            <div class="panel">SUBIR FOTO</div>
-
-                            <input type="file" class="nuevFoto" name="editarFoto">
-
-                            <p class="help-block">Peso máximo de la foto 2MB</p>
-
-                            <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizar" width="100px">
-
-                            <input type="hidden" name="fotoActual" id="fotoActual">
-
-                        </div>
 
                     </div>
 
@@ -546,13 +437,13 @@ MODAL EDITAR USUARIO
 
                     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
 
-                    <button type="submit" class="btn btn-primary">Modificar usuario</button>
+                    <button type="submit" class="btn btn-primary">Modificar Funcionario</button>
 
                 </div>
 
                 <?php
-                $editarUsuario = new ControladorUsuarios();
-                $editarUsuario->ctrEditarUsuario();
+                $editarFuncionario = new ControladorFuncionario();
+                $editarFuncionario->ctrEditarFuncionario();
                 ?>
 
             </form>
@@ -564,6 +455,6 @@ MODAL EDITAR USUARIO
 </div>
 
 <?php
-$borrarUsuario = new ControladorUsuarios();
-$borrarUsuario->ctrBorrarUsuario();
+$borrarFuncionario = new ControladorFuncionario();
+$borrarFuncionario->ctrBorrarFuncionario();
 ?>
