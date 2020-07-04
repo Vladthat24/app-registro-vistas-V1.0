@@ -1,26 +1,4 @@
 actualizarActivo();
-actualizarInactivo();
-
-/* $(document).ready(function () {
-     setTimeout(function () {
-        $('.tablaActualizar').load(window.location = "ticket");
-    }, 600000); 
-
-
-    $('[muestra_paciente="TOMO MUESTRA"]').addClass('btn btn btn-success');
-
-}) */
-
-//$(document).ready(function () {
-/*  CUENDO PRESIONAS LA TECLA
-    $(".dniminivalidar").keydown(function () {
-        console.log("Tecla pulsada");
-    }); */
-
-/* CUANDO SUELTAS LA TECLA */
-
-
-//})
 
 
 $("#actualizar").click(function () {
@@ -35,8 +13,9 @@ $("#actualizarReporte").click(function () {
  CARGAR LA TABLA DINÁMICA DE REGISTRO
  =============================================*/
 function actualizarActivo() {
-    $('.tablaTicket').DataTable({
-
+   
+    $('.tablaRegistro').DataTable({
+        
         "ajax": "ajax/datatable-registro.ajax.php",
         "deferRender": true,
         "retrieve": true,
@@ -72,11 +51,12 @@ function actualizarActivo() {
     })
 }
 
+
 /*=============================================
  CAPTURANDO LA CATEGORIA PARA ASIGNAR CÓDIGO - NUEVA
  =============================================*/
 $("#nuevaCategoria").change(function () {
-    /* $(document).ready(function () { */
+
 
     var idCategoria = $(this).val();
 
@@ -633,245 +613,6 @@ $(".tablaTicket").on("click", ".btnImprimirTicket", function () {
 }
 )
 
-
-/*===================================================================================================
-*****************************************************************************************************
-FUNCIONES EN JAVA SCRIPT PARA LA TABLA TERMINADOS 
-*****************************************************************************************************
- ====================================================================================================*/
-
-/*=============================================
- CARGAR LA TABLA DINÁMICA DE TICKETS TERMINADOS
- =============================================*/
-function actualizarInactivo() {
-    $('.tablaTicketInactivo').DataTable({
-
-        "ajax": "ajax/datatable-ticket.ajaxInactivo.php",
-        "deferRender": true,
-        "retrieve": true,
-        "processing": true,
-        "language": {
-
-            "sProcessing": "Procesando...",
-            "sLengthMenu": "Mostrar _MENU_ registros",
-            "sZeroRecords": "No se encontraron resultados",
-            "sEmptyTable": "Ningún dato disponible en esta tabla",
-            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
-            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0",
-            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-            "sInfoPostFix": "",
-            "sSearch": "Buscar:",
-            "sUrl": "",
-            "sInfoThousands": ",",
-            "sLoadingRecords": "Cargando...",
-            "oPaginate": {
-                "sFirst": "Primero",
-                "sLast": "Último",
-                "sNext": "Siguiente",
-                "sPrevious": "Anterior"
-            },
-            "oAria": {
-                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-            }
-
-        }
-
-
-    })
-}
-/*=============================================
-EDITAR TICKET TERMINADO
-=============================================*/
-$(".tablaTicketInactivo tbody").on("click", "button.btnEditarTicket", function () {
-
-    var idTicket = $(this).attr("idTicket");
-
-    var datos = new FormData();
-    datos.append("idTicket", idTicket);
-
-    $.ajax({
-
-        url: "ajax/ticket.ajax.php",
-        method: "POST",
-        data: datos,
-        cache: false,
-        contentType: false,
-        processData: false,
-        dataType: "json",
-        success: function (respuesta) {
-
-
-
-            var datosCategoria = new FormData();
-            datosCategoria.append("idCategoria", respuesta["id_categoria"]);
-
-            //            var datosSoporte = new FormData();
-            //            datosSoporte.append("idSoporte", respuesta["id_soporte"]);
-
-            var datosEstado = new FormData();
-            datosEstado.append("idEstado", respuesta["id_estado"]);
-
-            var datosDistrito = new FormData();
-            datosDistrito.append("idDistrito", respuesta["id_distrito"]);
-
-            //METODO AJAX PARA TRAER EL NOMBRE A LA VENTANA EDITAR 
-            var datosDocumento = new FormData();
-            datosDocumento.append("idDocumento", respuesta["id_documento"]);
-
-            //METODO AJAX PARA TRAER EL NOMBRE A LA VENTANA EDITAR 
-            $.ajax({
-
-                url: "ajax/categorias.ajax.php",
-                method: "POST",
-                data: datosCategoria,
-                cache: false,
-                contentType: false,
-                processData: false,
-                dataType: "json",
-                success: function (respuesta) {
-
-                    $("#editarCategoria").val(respuesta["id"]);
-                    $("#editarCategoria").html(respuesta["categoria"]);
-
-                }
-
-            })
-            //METODO AJAX PARA TRAER EL NOMBRE A LA VENTANA EDITAR 
-            $.ajax({
-
-                url: "ajax/documento.ajax.php",
-                method: "POST",
-                data: datosDocumento,
-                cache: false,
-                contentType: false,
-                processData: false,
-                dataType: "json",
-                success: function (respuesta) {
-
-                    $("#editarDocumento").val(respuesta["id"]);
-                    $("#editarDocumento").html(respuesta["documento"]);
-
-                }
-
-            })
-
-            $.ajax({
-
-                url: "ajax/estado.ajax.php",
-                method: "POST",
-                data: datosEstado,
-                cache: false,
-                contentType: false,
-                processData: false,
-                dataType: "json",
-                success: function (respuesta) {
-
-                    $("#editarEstado").val(respuesta["id"]);
-                    $("#editarEstado").html(respuesta["estado"]);
-
-                }
-
-            })
-
-            $.ajax({
-
-                url: "ajax/distrito.ajax.php",
-                method: "POST",
-                data: datosDistrito,
-                cache: false,
-                contentType: false,
-                processData: false,
-                dataType: "json",
-                success: function (respuesta) {
-
-                    $("#editarDistritoSelect").val(respuesta["id"]);
-                    $("#editarDistritoSelect").html(respuesta["distrito"]);
-
-                }
-
-            })
-            //CAPTURAR ID DEL MODAL EDITAR PARA MODIFICARLOS
-
-
-            $("#editardniPaciente").val(respuesta["dni"]);
-            $("#editarNombrePaciente").val(respuesta["nombre_paciente"]);
-            $("#editarEdadPaciente").val(respuesta["edad_paciente"]);
-            $("#editarDireccionPaciente").val(respuesta["direccion_paciente"]);
-            $("#editarDistritoPaciente").val(respuesta["distrito_paciente"]);
-            $("#editarCelularPaciente").val(respuesta["telefono_paciente"]);
-            $("#editarCelularPaciente").val(respuesta["telefono_paciente"]);
-            $("#editarComoABPaciente").val(respuesta["comoAB_paciente"]);
-            $("#editarMuestra").val(respuesta["muestra_paciente"]);
-            $("#editarMuestra").html(respuesta["muestra_paciente"]);
-
-            $("#editarFechaSintomas").val(respuesta["FechaSintomas"]);
-            $("#editarSintomas").val(respuesta["Sintomas"]);
-            $("#editarSintomas").html(respuesta["Sintomas"]);
-            $("#editarEnfermedad").val(respuesta["Enfermedad"]);
-            $("#editarTos").val(respuesta["Tos"]);
-            $("#editarTos").html(respuesta["Tos"]);
-            $("#editarDolorGarganta").val(respuesta["DolorGarganta"]);
-            $("#editarDolorGarganta").html(respuesta["DolorGarganta"]);
-            $("#editarFiebre").val(respuesta["Fiebre"]);
-            $("#editarFiebre").html(respuesta["Fiebre"]);
-            $("#editarFiebre_num").val(respuesta["fiebre_num"]);
-            $("#editarSecrecionNasal").val(respuesta["SecrecionNasal"]);
-            $("#editarSecrecionNasal").html(respuesta["SecrecionNasal"]);
-            $("#editarOtroSintomas").val(respuesta["OtroSintomas"]);
-            $("#editarViaje").val(respuesta["Viaje"]);
-            $("#editarViaje").html(respuesta["Viaje"]);
-            $("#editarPaisViaje").val(respuesta["pais_viaje"]);
-            $("#editarNumeroViaje").val(respuesta["NumeroViaje"]);
-            $("#editarContactoPersonaSospechosa").val(respuesta["ContactoPersonaSospechosa"]);
-            $("#editarContactoPersonaSospechosa").html(respuesta["ContactoPersonaSospechosa"]);
-            $("#editarDatosPersonaSospechosa").val(respuesta["DatosPersonaSospechosa"]);
-            $("#editarCelPersonaSospechosa").val(respuesta["CelPersonaSospechosa"]);
-
-            $("#editarCodigo").val(respuesta["codigo"]);
-
-            $("#editarDescripcion").val(respuesta["descripcion_paciente"]);
-
-            $("#editarObservacion").val(respuesta["observacion"]);
-
-            $("#editarNombre").val(respuesta["nombre"]);
-
-            $("#editarOficina").val(respuesta["oficina"]);
-
-            $("#editarArea").val(respuesta["area"]);
-
-            $("#editarCargo").val(respuesta["cargo"]);
-
-            $("#editarCel").val(respuesta["cel"]);
-
-            $("#editarSede").val(respuesta["sede"]);
-
-            $("#editarPiso").val(respuesta["piso"]);
-
-            if (respuesta["imagen"] != "") {
-
-                $("#imagenActual").val(respuesta["imagen"]);
-
-                $(".previsualizar").attr("src", respuesta["imagen"]);
-
-            }
-
-        }
-
-    })
-
-})
-
-/*=============================================
- IMPRIMIR TICKET TERMINADO
- =============================================*/
-$(".tablaTicketInactivo").on("click", ".btnImprimirTicket", function () {
-
-    var idTicket = $(this).attr("idTicket");
-
-    window.open("extensiones/tcpdf/pdf/printTicket.php?idTicket=" + idTicket, "_blank");
-}
-)
 
 /*=============================================
 RANGO DE FECHAS

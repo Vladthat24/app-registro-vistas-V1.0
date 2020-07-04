@@ -32,7 +32,7 @@ class ModeloRegistro
 
         $stmt = null;
     }
-    static public function mdlMostrarRegistro($tabla, $item, $valor, $item2, $valor2)
+    static public function mdlMostrarRegistro($tabla, $item, $valor)
     {
         //CAPTURAR DATOS PARA EL EDIT EN EL FORMULARIO
         if ($item != null) {
@@ -52,8 +52,8 @@ class ModeloRegistro
             Tap_Funcionario.cargo as cargo_funcionario,
             Tap_Entidad.entidad as entidad_funcionario,
             motivo,
-            fecha_ingreso,
-            fecha_salida,
+            convert(date,fecha_ingreso) as fecha_I,
+            convert(date,fecha_salida)as fecha_S,
             usuario  FROM $tabla inner join Tap_Funcionario  on 
             Tap_RegistroVisita.idfuncionario=Tap_Funcionario.id 
             inner join Tap_Entidad on Tap_Funcionario.identidad=Tap_Entidad.id ORDER BY Tap_RegistroVisita.id DESC");

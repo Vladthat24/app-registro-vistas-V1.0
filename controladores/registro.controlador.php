@@ -6,39 +6,19 @@ class ControladorRegistro
       MOSTRAR TICKET DE ACUERDO AL PERIL
       ============================================= */
 
-  static public function ctrMostrarRegistro($item, $valor, $item2, $valor2)
+  static public function ctrMostrarRegistro($item, $valor)
   {
 
     $tabla = "Tap_RegistroVisita";
 
-    $respuesta = ModeloRegistro::mdlMostrarRegistro($tabla, $item, $valor, $item2, $valor2);
-
-    return $respuesta;
-  }
-
-  static public function ctrMostrarRegistro_usuario($item, $item2, $valor, $item3, $valor3)
-  {
-
-    $tabla = "Tap_RegistroVisita";
-
-    $respuesta = ModeloRegistro::mdlMostrarRegistro_usuario($tabla, $item, $item2, $valor, $item3, $valor3);
-
-    return $respuesta;
-  }
-
-  static public function ctrMostrarRegistro_informatico($item, $item2, $valor, $item3, $valor3)
-  {
-
-    $tabla = "Tap_RegistroVisita";
-
-    $respuesta = ModeloRegistro::mdlMostrarRegistro_informatico($tabla, $item, $item2, $valor, $item3, $valor3);
+    $respuesta = ModeloRegistro::mdlMostrarRegistro($tabla, $item, $valor);
 
     return $respuesta;
   }
 
   /* =============================================
       CREAR REGISTRO
-      ============================================= */
+   ============================================= */
 
   static public function ctrCrearRegistro()
   {

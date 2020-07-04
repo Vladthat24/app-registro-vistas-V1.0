@@ -1,6 +1,6 @@
 <?php
-
 @session_start();
+
 require_once "../controladores/registro.controlador.php";
 require_once "../modelos/registro.modelo.php";
 
@@ -8,21 +8,21 @@ require_once "../modelos/registro.modelo.php";
 require_once "../controladores/funcionario.controlador.php";
 require_once "../modelos/funcionario.modelo.php";
 
-class TablaTicket
+class TablaRegistro
 {
   /* =============================================
       MOSTRAR LA TABLA DE TICKET
       ============================================= */
 
-  public function mostrarTablaTicket()
+  public function mostrarTablaRegistro()
   {
 
     $item = null;
     $valor = null;
     
-    $ticket = ControladorFuncionario::ctrMostrarFuncionario($item, $valor);
+    $registro = ControladorRegistro::ctrMostrarRegistro($item, $valor);
 
-    if (count($ticket) == 0) {
+    if (count($registro) == 0) {
 
       echo '{"data": []}';
 
@@ -32,39 +32,25 @@ class TablaTicket
     $datosJson = '{
 		  "data": [';
 
-    for ($i = 0; $i < count($ticket); $i++) {
-
-      /* =============================================
-       TRAEMOS TIPO DE DOCUMENTO
-      ============================================= */
-      $item = "id";
-      $valor = $ticket[$i]["id_documento"];
-
-      $documento = ControladorDocumento::ctrMostrarDocumento($item, $valor);
-
-      /* =============================================
-        TOMA MUESTRA
-      ============================================= */
-
-      $muestra_paciente2 = "<div type='button'>" . $ticket[$i]["muestra_paciente"] . "</div>";
+    for ($i = 0; $i < count($registro); $i++) {
 
       /* =============================================
        TRAEMOS LAS ACCIONES
        ============================================= */
 
-      $botones = "<div class='btn-group'><button class='btn btn-info btnImprimirTicket' idTicket='" . $ticket[$i]["id"] . "'><i class='fa fa-print'></i></button><button class='btn btn-warning btnEditarTicket' idTicket='" . $ticket[$i]["id"] . "' data-toggle='modal' data-target='#modalEditarTicket'><i class='fa fa-pencil'></i></button><button class='btn btn-danger btnEliminarTicket' idTicket='" . $ticket[$i]["id"] . "' codigo='" . $ticket[$i]["codigo"] . "' imagen='" . $ticket[$i]["imagen"] . "'><i class='fa fa-times'></i></button></div>";
+      $botones = "<div class='btn-group'><button class='btn btn-info btnImprimirRegistro' idRegistro='" . $registro[$i]["id"] . "'><i class='fa fa-print'></i></button><button class='btn btn-warning btnEditarRegistro' idRegistro='" . $registro[$i]["id"] . "' data-toggle='modal' data-target='#modalEditarRegistro'><i class='fa fa-pencil'></i></button><button class='btn btn-danger btnEliminarRegistro' idRegistro='" . $registro[$i]["id"] . "'><i class='fa fa-times'></i></button></div>";
 
       $datosJson .= '[
 			      "' . ($i + 1) . '",
                               "' . $botones . '",                               
-                              "' . $ticket[$i]["num_dni_funcionario"] . '",
-                              "' . $ticket[$i]["nombre_funcionario"] . '",
-                              "' . $ticket[$i]["cargo_funcionario"] . '",
-                              "' . $ticket[$i]["entidad_funcionario"] . '",
-                              "' . $ticket[$i]["motivo"] . '",
-                              "' . $ticket[$i]["fecha_ingreso"] . '",
-                              "' . $ticket[$i]["fecha_salida"] . '",
-                              "' . $ticket[$i]["usuario"] . '"
+                              "' . $registro[$i]["num_dni_funcionario"] . '",
+                              "' . $registro[$i]["nombre_funcionario"] . '",
+                              "' . $registro[$i]["cargo_funcionario"] . '",
+                              "' . $registro[$i]["entidad_funcionario"] . '",
+                              "' . $registro[$i]["motivo"] . '",
+                              "' . $registro[$i]["fecha_I"] . '",
+                              "' . $registro[$i]["fecha_S"] . '",
+                              "' . $registro[$i]["usuario"] . '"
 
 			    ],';
     }
@@ -82,5 +68,5 @@ class TablaTicket
 /* =============================================
   ACTIVAR TABLA DE PRODUCTOS
   ============================================= */
-$activarTicket = new TablaTicket();
-$activarTicket->mostrarTablaTicket();
+$activarRegistro = new TablaRegistro();
+$activarRegistro->mostrarTablaRegistro();

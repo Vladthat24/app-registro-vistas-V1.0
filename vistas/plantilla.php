@@ -172,7 +172,7 @@
   <script src="vistas/js/categorias.js"></script>
   <script src="vistas/js/entidad.js"></script>
   <script src="vistas/js/documento.js"></script>
-  <script src="vistas/js/ticket.js"></script>
+  <script src="vistas/js/registro.js"></script>
   <script src="vistas/js/clientes.js"></script>
   <script src="vistas/js/ventas.js"></script>
   <script src="vistas/js/consultaReniec.js"></script>
