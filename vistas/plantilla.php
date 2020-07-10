@@ -33,6 +33,13 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="vistas/dist/css/AdminLTE.css">
 
+  <!-- DatePicker-->
+  <link rel="stylesheet" href="vistas/bower_components/datepicker/jquery-ui.css">
+
+  <!-- DateTimePicker-->
+  <link rel="stylesheet" href="vistas/bower_components/datetimepicker/bootstrap-datetimepicker.css">
+
+
   <!-- AdminLTE Skins -->
   <link rel="stylesheet" href="vistas/dist/css/skins/_all-skins.min.css">
 
@@ -42,6 +49,12 @@
   <!-- DataTables -->
   <link rel="stylesheet" href="vistas/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
   <link rel="stylesheet" href="vistas/bower_components/datatables.net-bs/css/responsive.bootstrap.min.css">
+
+
+  <!-- SELECT 2 -->
+  <link rel="stylesheet" href="vistas/bower_components/select2/dist/css/select2.css">
+  <link rel="stylesheet" href="vistas/bower_components/select2/dist/css/select2.min.css">
+
 
   <!-- iCheck for checkboxes and radio inputs -->
   <link rel="stylesheet" href="vistas/plugins/iCheck/all.css">
@@ -91,6 +104,14 @@
   <script src="vistas/bower_components/moment/min/moment.min.js"></script>
   <script src="vistas/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
 
+ <!-- datepicker-->
+ <script src="vistas/bower_components/datepicker/jquery-ui.js"></script>
+
+  <!-- dateTimePicker-->
+  <script src="vistas/bower_components/datetimepicker/bootstrap-datetimepicker.js"></script>
+
+    <!-- select 2-->
+    <script src="vistas/bower_components/select2/dist/js/select2.js"></script>
 
 </head>
 

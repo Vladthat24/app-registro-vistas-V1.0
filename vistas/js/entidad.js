@@ -53,7 +53,7 @@ $(".tablas").on("click", ".btnEliminarEntidad", function () {
 
 		if (result.value) {
 
-			window.location = "index.php?ruta=perfil&idEntidad=" + idEntidad;
+			window.location = "index.php?ruta=entidad&idEntidad=" + idEntidad;
 
 		}
 

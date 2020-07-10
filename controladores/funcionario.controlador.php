@@ -98,6 +98,86 @@ class ControladorFuncionario
     }
 
     /* =============================================
+      REGISTRO DE FUNCIONARIO
+      ============================================= */
+
+    static public function ctrCrearFuncionarioVisita()
+    {
+
+        if (isset($_POST["nuevNombre"])) {
+
+            if (
+                preg_match('/^[a-zA-Z0-9]+$/', $_POST["dni"]) &&
+                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevNombre"])
+            ) {
+
+                $tabla = "Tap_Funcionario";
+
+                $datos = array(
+
+                    "idtipo_documento" => $_POST["nuevTipoDocumento"],
+                    "num_documento" => $_POST["dni"],
+                    "nombre" => $_POST["nuevNombre"],
+                    "identidad" => $_POST["nuevEntidad"],
+                    "cargo" => $_POST["nuevCargo"],
+                );
+
+                $respuesta = ModeloFuncionario::mdlIngresarFuncionario($tabla, $datos);
+
+                if ($respuesta == "ok") {
+
+                    echo '<script>
+  
+                      $("#modalAgregarRegistro").modal("show");
+                        
+
+                      </script>';
+                } else {
+                    echo '<script>
+  
+                      swal({
+  
+                          type: "success",
+                          title: "¡Error al Crear un Funcionario, Contactar con el Administrador!",
+                          showConfirmButton: true,
+                          confirmButtonText: "Cerrar"
+  
+                      }).then(function(result){
+  
+  
+                      });
+                  
+  
+                      </script>';
+                }
+            } else {
+
+                echo '<script>
+                      
+                      swal({
+  
+                          type: "error",
+                          title: "¡El Funcionario no puede ir vacío o llevar caracteres especiales!",
+                          showConfirmButton: true,
+                          confirmButtonText: "Cerrar"
+  
+                      }).then(function(result){
+  
+                          if(result.value){
+                          
+                          window.location = "funcionario";
+  
+                          }
+  
+                      });
+                  
+  
+                  </script>';
+            }
+        }
+    }
+
+    /* =============================================
       MOSTRAR FUNCIONARIO
       ============================================= */
 

@@ -62,6 +62,82 @@ class ControladorEntidad
 	}
 
 	/*=============================================
+	CREAR ENTIDAD VISITA REGISTRO
+	=============================================*/
+
+	static public function ctrCrearEntidadVisita()
+	{
+
+		if (isset($_POST["nuevEntidadVisita"])) {
+
+			if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevEntidadVisita"])) {
+
+				$tabla = "Tap_Entidad";
+
+				$datos = $_POST["nuevEntidad"];
+
+				$respuesta = ModeloEntidad::mdlIngresarEntidad($tabla, $datos);
+
+				if ($respuesta == "ok") {
+
+					echo '<script>
+
+					swal({
+						  type: "success",
+						  title: "La Entidad ha sido guardada correctamente",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+									if (result.value) {
+
+									window.location = "registro";
+
+									}
+								})
+
+					</script>';
+					
+				}else {
+                    echo '<script>
+  
+                      swal({
+  
+                          type: "success",
+                          title: "¡Error al Crear un Entidad, Contactar con el Administrador!",
+                          showConfirmButton: true,
+                          confirmButtonText: "Cerrar"
+  
+                      }).then(function(result){
+  
+  
+                      });
+                  
+  
+                      </script>';
+                }
+			} else {
+
+				echo '<script>
+
+					swal({
+						  type: "error",
+						  title: "¡La entidad no puede ir vacía o llevar caracteres especiales!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "entidad";
+
+							}
+						})
+
+			  	</script>';
+			}
+		}
+	}
+
+	/*=============================================
 	MOSTRAR ENTIDAD
 	=============================================*/
 

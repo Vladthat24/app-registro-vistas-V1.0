@@ -24,16 +24,16 @@ class AjaxFuncionario
   }
 
   /* =============================================
-      VALIDAR NO REPETIR NOMBRE DEL FUNCIONARIO 
-      ============================================= */
+    VALIDAR NO REPETIR NOMBRE DEL FUNCIONARIO 
+  ============================================= */
 
-  public $validarDni;
+  public $validarFuncionario;
 
-  public function ajaxValidarDni()
+  public function ajaxValidarFuncionario()
   {
 
     $item = "num_documento";
-    $valor = $this->validarDni;
+    $valor = $this->validarFuncionario;
 
     $respuesta = ControladorFuncionario::ctrMostrarFuncionario($item, $valor);
 
@@ -55,9 +55,9 @@ if (isset($_POST["idFuncionario"])) {
   VALIDAR NO REPETIR NOMBRE DE FUNCIONARIO
   ============================================= */
 
-if (isset($_POST["validarDni"])) {
+if (isset($_POST["validarFuncionario"])) {
 
   $valDni = new AjaxFuncionario();
-  $valDni->validarDni = $_POST["validarDni"];
-  $valDni->ajaxValidarDni();
+  $valDni->validarFuncionario = $_POST["validarFuncionario"];
+  $valDni->ajaxValidarFuncionario();
 }

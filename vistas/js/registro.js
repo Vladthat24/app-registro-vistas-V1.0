@@ -1,21 +1,147 @@
 actualizarActivo();
+/*=============================================
+LLAMAR AL DNI QUE ESTA ALMACENADO EN EL LOCALSTRORE
+ =============================================*/
+$(document).ready(function () {
 
 
-$("#actualizar").click(function () {
-    window.location = "ticket";
+    var dni = localStorage.getItem("dniLocalStore");
+    $("#nuevDniVisitaFuncionario").val(dni);
+
+    $("#nuevEntidadSelectSearch").select2();
+
+})
+/*=============================================
+ALMACENAR EL DNI EN EL LOCALSTRORE
+ =============================================*/
+$("#crearFuncionarioVisita").on("click", function () {
+
+    var dniLocalStore = $(".dniLocalStore").val();
+
+    localStorage.setItem("dniLocalStore", dniLocalStore);
+
 })
 
-$("#actualizarReporte").click(function () {
-    window.location = "reporteticket";
+
+/*=============================================
+ELIMINAR DNI EN EL LOCALSTRORE
+ =============================================*/
+$("#limpiarFuncionario").on("click", function () {
+
+    localStorage.removeItem("dniLocalStore");
+
+    $("#nuevDniVisitaFuncionario").val("");
+    $("#nuevNombreFuncionario").val("");
+    $("#nuevCargoFuncionario").val("");
+    $("#nuevEntidadFuncionario").val("");
+})
+/*=============================================
+ CARGAR MODAL DE FUNCIONARIO 
+ =============================================*/
+$("#agregarFuncionario").on("click", function () {
+
+    $('#modalAgregarRegistro').modal('show');
+
+    var dni = localStorage.getItem("dniLocalStore");
+    $("#nuevDniVisitaFuncionario").val(dni);
+
+
+
+})
+
+$("#crearFuncionario").on("click", function () {
+    $('#modalAgregarFuncionarioVisita').modal('show');
+})
+$("#agregarEntidades").on("click", function () {
+    $('#modalAgregarEntidadVisita').modal('show');
+})
+
+/*=============================================
+ CARGAR HORA DE DATETIMEPICKER
+ =============================================*/
+$(function () {
+    $('#datetimepicker3').datetimepicker({
+        format: 'LT'
+    });
+});
+
+/*=============================================
+ ACTUALIZAR PAGINA 
+ =============================================*/
+$("#actualizar").click(function () {
+    window.location = "registro";
+})
+/*=============================================
+ VALIDAR FUNCIONARIO SI EXISTE
+ =============================================*/
+
+$("#buscarFuncionario").click(function () {
+
+    var funcionario = $("#nuevDniVisitaFuncionario").val();
+    console.log("funcionario", funcionario);
+
+    var datos = new FormData();
+    datos.append("validarFuncionario", funcionario);
+
+    $.ajax({
+        url: "ajax/funcionario.ajax.php",
+        method: "POST",
+        data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (respuesta) {
+
+            if (!respuesta) {
+
+                $("#nuevDniVisitaFuncionario").parent()
+                    .after('<div class="alert alert-warning">El funcionario no existe en la base de datos, <i style="color:blue;"><strong>crear funcionario</strong></i></div>');
+                $("#nuevNombreFuncionario").val("");
+                $("#nuevCargoFuncionario").val("");
+                $("#nuevEntidadFuncionario").val("");
+            } else {
+                $("#nuevNombreFuncionario").val(respuesta["nombre"]);
+                $("#nuevCargoFuncionario").val(respuesta["cargo"]);
+
+
+                var datosEntidad = new FormData();
+                datosEntidad.append("idEntidad", respuesta["identidad"]);
+
+                //METODO AJAX PARA TRAER EL NOMBRE A LA VENTANA EDITAR 
+                $.ajax({
+
+                    url: "ajax/entidad.ajax.php",
+                    method: "POST",
+                    data: datosEntidad,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    dataType: "json",
+                    success: function (respuesta) {
+
+                        $("#nuevEntidadFuncionario").val(respuesta["entidad"]);
+
+
+                    }
+
+                })
+
+
+            }
+
+        }
+
+    })
 })
 
 /*=============================================
  CARGAR LA TABLA DINÁMICA DE REGISTRO
  =============================================*/
 function actualizarActivo() {
-   
+
     $('.tablaRegistro').DataTable({
-        
+
         "ajax": "ajax/datatable-registro.ajax.php",
         "deferRender": true,
         "retrieve": true,
