@@ -47,16 +47,23 @@ class ModeloRegistro
         } else {
 
             $stmt = Conexion::conectar()->prepare("SELECT Tap_RegistroVisita.id as id,
-            Tap_Funcionario.num_documento as num_dni_funcionario,
-            Tap_Funcionario.nombre as nombre_funcionario,
-            Tap_Funcionario.cargo as cargo_funcionario,
-            Tap_Entidad.entidad as entidad_funcionario,
-            motivo,
-            convert(date,fecha_ingreso) as fecha_I,
-            convert(date,fecha_salida)as fecha_S,
-            usuario  FROM $tabla inner join Tap_Funcionario  on 
+            (SELECT tipo_documento FROM Tap_TipoDocumento WHERE id=Tap_Funcionario.id) as TipoDocF,    
+            Tap_Funcionario.num_documento as num_documento,
+            Tap_Funcionario.nombre as nombre,
+            Tap_Funcionario.cargo as cargo,
+            (SELECT entidad FROM Tap_Entidad WHERE id=Tap_Funcionario.identidad) as ent_funcionario,
+            Tap_RegistroVisita.motivo as motivo,
+            Tap_RegistroVisita.servidor_publico as servidor_publico,
+            Tap_RegistroVisita.area_oficina_sp as area_oficina_sp,
+            Tap_RegistroVisita.cargo as cargo,
+            FORMAT(CONVERT(date,Tap_RegistroVisita.fecha_ingreso),'dd/MM/yyyy') as fecha_ingreso,
+			CONVERT(varchar(25), CAST(Tap_RegistroVisita.hora_ingreso as TIME),100) as hora_ingreso,
+            FORMAT(Tap_RegistroVisita.fecha_salida,'dd/MM/yyyy') as fecha_salida,
+            Tap_RegistroVisita.hora_salida as hora_salida,
+            Tap_RegistroVisita.usuario as usuario  
+            FROM $tabla left join Tap_Funcionario  on 
             Tap_RegistroVisita.idfuncionario=Tap_Funcionario.id 
-            inner join Tap_Entidad on Tap_Funcionario.identidad=Tap_Entidad.id ORDER BY Tap_RegistroVisita.id DESC");
+            ORDER BY Tap_RegistroVisita.id DESC");
 
             $stmt->execute();
 
@@ -75,29 +82,23 @@ class ModeloRegistro
     static public function mdlIngresarRegistro($tabla, $datos)
     {
 
-        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(idtipo_documento
-        ,tipo_documento,num_documento,nya_funcionario,identidad,nombre_entidad
-        ,motivo,oficina_funcionario,cargo_funcionario,fecha_ingreso,fecha_salida
-        ,idusuario,usuario,imagen)
-         VALUES (:idtipo_documento,:tipo_documento,:num_documento,:nya_funcionario,
-         :identidad,:nombre_entidad,:motivo,:oficina_funcionario,:cargo_funcionario,
-         :fecha_ingreso,:fecha_salida,:idusuario,:usuario,:imagen)");
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(idfuncionario,
+        motivo,servidor_publico,area_oficina_sp,cargo,fecha_ingreso,hora_ingreso,
+        fecha_salida,hora_salida,usuario)
+        VALUES (:idfuncionario,:motivo,:servidor_publico,:area_oficina_sp,:cargo,
+        :fecha_ingreso,:hora_ingreso,:fecha_salida,:hora_salida,:usuario)");
 
-        $stmt->bindParam(":idtipo_documento", $datos["idtipo_documento"], PDO::PARAM_INT);
-        $stmt->bindParam(":tipo_documento", $datos["tipo_documento"], PDO::PARAM_STR);
-
-        $stmt->bindParam(":num_documento", $datos["num_documento"], PDO::PARAM_INT);
-        $stmt->bindParam(":nya_funcionario", $datos["nya_funcionario"], PDO::PARAM_STR);
-        $stmt->bindParam(":identidad", $datos["identidad"], PDO::PARAM_INT);
-        $stmt->bindParam(":nombre_entidad", $datos["nombre_entidad"], PDO::PARAM_STR);
+        $stmt->bindParam(":idfuncionario", $datos["idfuncionario"], PDO::PARAM_INT);
         $stmt->bindParam(":motivo", $datos["motivo"], PDO::PARAM_STR);
-        $stmt->bindParam(":oficina_funcionario", $datos["oficina_funcionario"], PDO::PARAM_STR);
-        $stmt->bindParam(":cargo_funcionario", $datos["cargo_funcionario"], PDO::PARAM_STR);
+        $stmt->bindParam(":servidor_publico", $datos["servidor_publico"], PDO::PARAM_STR);
+        $stmt->bindParam(":area_oficina_sp", $datos["area_oficina_sp"], PDO::PARAM_STR);
+        $stmt->bindParam(":cargo", $datos["cargo"], PDO::PARAM_STR);
         $stmt->bindParam(":fecha_ingreso", $datos["fecha_ingreso"], PDO::PARAM_STR);
+        $stmt->bindParam(":hora_ingreso", $datos["hora_ingreso"], PDO::PARAM_STR);
         $stmt->bindParam(":fecha_salida", $datos["fecha_salida"], PDO::PARAM_STR);
-        $stmt->bindParam(":idusuario", $datos["idusuario"], PDO::PARAM_STR);
+        $stmt->bindParam(":hora_salida", $datos["hora_salida"], PDO::PARAM_STR);
         $stmt->bindParam(":usuario", $datos["usuario"], PDO::PARAM_STR);
-        $stmt->bindParam(":imagen", $datos["imagen"], PDO::PARAM_STR);
+
 
 
         if ($stmt->execute()) {
@@ -120,30 +121,12 @@ class ModeloRegistro
     {
 
         $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET 
-        idtipo_documento=:idtipo_documento
-        ,tipo_documento=:tipo_documento,num_documento=:num_documento
-        ,nya_funcionario=:nya_funcionario,identidad=:identidad,nombre_entidad=:nombre_entidad
-        ,motivo=:motivo,oficina_funcionario=:oficina_funcionario
-        ,cargo_funcionario=:cargo_funcionario,fecha_ingreso=:fecha_ingreso
-        ,fecha_salida=:fecha_salida,idusuario=:idusuario,usuario=:usuario,imagen=:imagen
+        fecha_salida=:fecha_salida,hora_salida=:hora_salida
         WHERE id = :id");
 
-        $stmt->bindParam(":id",$datos["id"],PDO::PARAM_INT);
-        $stmt->bindParam(":idtipo_documento", $datos["idtipo_documento"], PDO::PARAM_INT);
-        $stmt->bindParam(":tipo_documento", $datos["tipo_documento"], PDO::PARAM_STR);
-
-        $stmt->bindParam(":num_documento", $datos["num_documento"], PDO::PARAM_INT);
-        $stmt->bindParam(":nya_funcionario", $datos["nya_funcionario"], PDO::PARAM_STR);
-        $stmt->bindParam(":identidad", $datos["identidad"], PDO::PARAM_INT);
-        $stmt->bindParam(":nombre_entidad", $datos["nombre_entidad"], PDO::PARAM_STR);
-        $stmt->bindParam(":motivo", $datos["motivo"], PDO::PARAM_STR);
-        $stmt->bindParam(":oficina_funcionario", $datos["oficina_funcionario"], PDO::PARAM_STR);
-        $stmt->bindParam(":cargo_funcionario", $datos["cargo_funcionario"], PDO::PARAM_STR);
-        $stmt->bindParam(":fecha_ingreso", $datos["fecha_ingreso"], PDO::PARAM_STR);
+        $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
         $stmt->bindParam(":fecha_salida", $datos["fecha_salida"], PDO::PARAM_STR);
-        $stmt->bindParam(":idusuario", $datos["idusuario"], PDO::PARAM_STR);
-        $stmt->bindParam(":usuario", $datos["usuario"], PDO::PARAM_STR);
-        $stmt->bindParam(":imagen", $datos["imagen"], PDO::PARAM_STR);
+        $stmt->bindParam(":hora_salida", $datos["hora_salida"], PDO::PARAM_STR);
 
         if ($stmt->execute()) {
 

@@ -23,98 +23,33 @@ class ControladorRegistro
   static public function ctrCrearRegistro()
   {
 
-    if (isset($_POST["nuevNum_documento"])) {
+    if (isset($_POST["nuevIdFuncionario"])) {
 
-      if ($_POST["nuevNum_documento"]) {
+      if ($_POST["nuevIdFuncionario"]) {
 
-        /* =============================================
-                  VALIDAR IMAGEN
-        ============================================= */
-
-        $ruta = "vistas/img/productos/default/anonymous.png";
-
-        if (isset($_FILES["nuevImagen"]["tmp_name"])) {
-
-          list($ancho, $alto) = getimagesize($_FILES["nuevImagen"]["tmp_name"]);
-
-          $nuevoAncho = 500;
-          $nuevoAlto = 500;
-
-          /* =============================================
-            CREAMOS EL DIRECTORIO DONDE VAMOS A GUARDAR LA FOTO DEL USUARIO
-           ============================================= */
-
-          $directorio = "vistas/img/productos/" . $_POST["nuevNum_documento"];
-
-          mkdir($directorio, 0755);
-
-          /* =============================================
-              DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
-           ============================================= */
-
-          if ($_FILES["nuevImagen"]["type"] == "image/jpeg") {
-
-            /* =============================================
-              GUARDAMOS LA IMAGEN EN EL DIRECTORIO
-            ============================================= */
-
-            $aleatorio = mt_rand(100, 999);
-
-            $ruta = "vistas/img/productos/" . $_POST["nuevNum_documento"] . "/" . $aleatorio . ".jpg";
-
-            $origen = imagecreatefromjpeg($_FILES["nuevImagen"]["tmp_name"]);
-
-            $destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
-
-            imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
-
-            imagejpeg($destino, $ruta);
-          }
-
-          if ($_FILES["nuevImagen"]["type"] == "image/png") {
-
-            /* =============================================
-                GUARDAMOS LA IMAGEN EN EL DIRECTORIO
-            ============================================= */
-
-            $aleatorio = mt_rand(100, 999);
-
-            $ruta = "vistas/img/productos/" . $_POST["nuevNum_documento"] . "/" . $aleatorio . ".png";
-
-            $origen = imagecreatefrompng($_FILES["nuevImagen"]["tmp_name"]);
-
-            $destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
-
-            imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
-
-            imagepng($destino, $ruta);
-          }
-        }
         date_default_timezone_set('America/Lima');
 
-        $fecha = date('Y-m-d');
-        $hora = date('H:i:s');
+        $fecha = date('d-m-Y');
+        $hora = date('H:i:s A');
 
-        $fechaActual = $fecha . ' ' . $hora;
+        /* $fechaActual = $fecha . ' ' . $hora; */
 
         $tabla = "Tap_RegistroVisita";
 
-        $datos = array(
-          "idtipo_documento" => $_POST["nuevTipoDocumento"],
-          "tipo_documento" => $_POST["nuevTipo_documento"],
-          "num_documento" => $_POST["nuevNum_documento"],
+        var_dump($_POST["nuevFechaSalida"], $_POST["nuevHoraSalida"]);
 
-          "nya_funcionario" => $_POST["nuevNya_funcionario"],
-          "identidad" => $_POST["nuevIdentidad"],
-          "nombre_entidad" => $_POST["nuevNombre_entidad"],
-          "motivo" => $_POST["motivo"],
-          "oficina_funcionario" => $_POST["nuevOficina_funcionario"],
-          "cargo_funcionario" => $_POST["nuevCargo_funcionario"],
-          "fecha_ingreso" => $fechaActual,
-          "fecha_salida" => $_POST["nuevFecha_salida"],
-          "idusuario" => $_POST["nuevIdusuario"],
-          "usuario" => $_POST["nuevUsuario"],
-          "imagen" => $ruta
+        $datos = array(
+
+          "idfuncionario" => $_POST["nuevIdFuncionario"],
+          "motivo" => $_POST["nuevMotivo"],
+          "servidor_publico" => strtoupper($_POST["nuevNombreFuncionarioLocal"]),
+          "area_oficina_sp" => strtoupper($_POST["nuevAreaOfFuncionarioLocal"]),
+          "cargo" => strtoupper($_POST["nuevCargoFuncionarioLocal"]),
+          "fecha_ingreso" => $fecha,
+          "hora_ingreso" => $hora,
+          "fecha_salida" => $_POST["nuevFechaSalida"],
+          "hora_salida" => $_POST["nuevHoraSalida"],
+          "usuario" => $_POST["nuevUsuarioDigitador"]
 
         );
 
@@ -126,7 +61,7 @@ class ControladorRegistro
             
 						swal({
 							  type: "success",
-							  title: "El Registro ha sido generado correctamente",
+							  title: "La visita ha sido registrado correctamente",
 							  showConfirmButton: true,
 							  confirmButtonText: "Cerrar"
 							  }).then((result) => {
@@ -138,6 +73,23 @@ class ControladorRegistro
 									})
 
 						</script>';
+        } else {
+          echo '<script>
+            
+          swal({
+              type: "success",
+              title: "Error al Registrar en la BDD, Comunicarse con el Administrador",
+              showConfirmButton: true,
+              confirmButtonText: "Cerrar"
+              }).then((result) => {
+                  if (result.value) {
+
+                  window.location = "registro";
+
+                  }
+                })
+
+          </script>';
         }
       } else {
 
@@ -172,98 +124,14 @@ class ControladorRegistro
 
       if ($_POST["editarNumero_documento"]) {
 
-        /* =============================================
-                  VALIDAR IMAGEN
-                  ============================================= */
-
-        $ruta = $_POST["imagenActual"];
-
-        if (isset($_FILES["editarImagen"]["tmp_name"]) && !empty($_FILES["editarImagen"]["tmp_name"])) {
-
-          list($ancho, $alto) = getimagesize($_FILES["editarImagen"]["tmp_name"]);
-
-          $nuevoAncho = 500;
-          $nuevoAlto = 500;
-
-          /* =============================================
-           CREAMOS EL DIRECTORIO DONDE VAMOS A GUARDAR LA FOTO DEL USUARIO
-         ============================================= */
-
-          $directorio = "vistas/img/productos/" . $_POST["editarNumero_documento"];
-
-          /* =============================================
-          PRIMERO PREGUNTAMOS SI EXISTE OTRA IMAGEN EN LA BD
-          ============================================= */
-
-          if (!empty($_POST["imagenActual"]) && $_POST["imagenActual"] != "vistas/img/productos/default/anonymous.png") {
-
-            unlink($_POST["imagenActual"]);
-          } else {
-
-            mkdir($directorio, 0755);
-          }
-
-          /* =============================================
-                      DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
-                      ============================================= */
-
-          if ($_FILES["editarImagen"]["type"] == "image/jpeg") {
-
-            /* =============================================
-                          GUARDAMOS LA IMAGEN EN EL DIRECTORIO
-                          ============================================= */
-
-            $aleatorio = mt_rand(100, 999);
-
-            $ruta = "vistas/img/productos/" . $_POST["editarNum_documento"] . "/" . $aleatorio . ".jpg";
-
-            $origen = imagecreatefromjpeg($_FILES["editarImagen"]["tmp_name"]);
-
-            $destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
-
-            imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
-
-            imagejpeg($destino, $ruta);
-          }
-
-          if ($_FILES["editarImagen"]["type"] == "image/png") {
-
-            /* =============================================
-                          GUARDAMOS LA IMAGEN EN EL DIRECTORIO
-                          ============================================= */
-
-            $aleatorio = mt_rand(100, 999);
-
-            $ruta = "vistas/img/productos/" . $_POST["editarNum_documento"] . "/" . $aleatorio . ".png";
-
-            $origen = imagecreatefrompng($_FILES["editarImagen"]["tmp_name"]);
-
-            $destino = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
-
-            imagecopyresized($destino, $origen, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $ancho, $alto);
-
-            imagepng($destino, $ruta);
-          }
-        }
 
         $tabla = "Tap_RegistroVisita";
 
         $datos = array(
 
-          "idtipo_documento" => $_POST["nuevTipoDocumento"],
-          "tipo_documento" => $_POST["nuevTipo_documento"],
-          "num_documento" => $_POST["nuevNum_documento"],
-
-          "nya_funcionario" => $_POST["nuevNya_funcionario"],
-          "identidad" => $_POST["nuevIdentidad"],
-          "nombre_entidad" => $_POST["nuevNombre_entidad"],
-          "motivo" => $_POST["motivo"],
-          "oficina_funcionario" => $_POST["nuevOficina_funcionario"],
-          "cargo_funcionario" => $_POST["nuevCargo_funcionario"],
-          "fecha_salida" => $_POST["nuevFecha_salida"],
-          "idusuario" => $_POST["nuevIdusuario"],
-          "usuario" => $_POST["nuevUsuario"],
-          "imagen" => $ruta
+          "id" => $_POST["editarIdFuncionario"],
+          "fecha_salida" => $_POST["editarFechaSalida"],
+          "hora_salida" => $_POST["editarHoraSalida"]
         );
 
         $respuesta = ModeloRegistro::mdlEditarRegistro($tabla, $datos);
@@ -286,6 +154,23 @@ class ControladorRegistro
 									})
 
 						</script>';
+        } else {
+          echo '<script>
+
+          swal({
+              type: "success",
+              title: "Error al Registrar la Visita, Contactar con el Administrador",
+              showConfirmButton: true,
+              confirmButtonText: "Cerrar"
+              }).then((result) => {
+                  if (result.value) {
+
+                  window.location = "registro";
+
+                  }
+                })
+
+          </script>';
         }
       } else {
 
@@ -320,12 +205,6 @@ class ControladorRegistro
 
       $tabla = "Tap_RegistroVisita";
       $datos = $_GET["idRegistro"];
-
-      if ($_GET["imagen"] != "" && $_GET["imagen"] != "vistas/img/productos/default/anonymous.png") {
-
-        unlink($_GET["imagen"]);
-        rmdir('vistas/img/productos/' . $_GET["num_documento"]);
-      }
 
       $respuesta = ModeloRegistro::mdlEliminarRegistro($tabla, $datos);
 
@@ -425,7 +304,7 @@ class ControladorRegistro
       </tr>");
 
       foreach ($ticket as $row => $item) {
-        $categoria = ControladorCategorias::ctrMostrarCategorias("id", $item["id_categoria"]);
+
         $distrito = ControladorDistrito::ctrMostrarDistrito("id", $item["id_distrito"]);
         $estado = ControladorEstado::ctrMostrarEstado("id", $item["id_estado"]);
         $tipodoc = ControladorDocumento::ctrMostrarDocumento("id", $item["id_documento"]);
@@ -444,7 +323,7 @@ class ControladorRegistro
                     <td style='border:1px solid #eee;'>" . $item["telefono_paciente"] . "</td>
                     <td style='border:1px solid #eee;'>" . $item["comoAB_paciente"] . "</td>
                     <td style='border:1px solid #eee;'>" . $item["muestra_paciente"] . "</td>
-                    <td style='border:1px solid #eee;'>" . $categoria["categoria"] . "</td>
+                    
                     <td style='border:1px solid #eee;'>" . $item["codigo"] . "</td>
                     <td style='border:1px solid #eee;'>" . $item["descripcion_paciente"] . "</td>
                     <td style='border:1px solid #eee;'>" . $item["FechaSintomas"] . "</td>
@@ -469,7 +348,3 @@ class ControladorRegistro
     }
   }
 }
-
-
-
-

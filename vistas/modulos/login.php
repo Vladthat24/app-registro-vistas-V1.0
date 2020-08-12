@@ -1,6 +1,7 @@
 
 <div class="content">
     <div class="row">
+
         <h1 style="color: white; text-align: center" >Plataforma Tecnológica - Registro de Visitas V. 1.0.0</h1>
         <h2 style="color: white;text-align: center"><a href="https://www.dirislimasur.gob.pe/">Equipo de Trabajo Funcional Tecnologías de la Información - DIRIS LIMA SUR</a></h2>
         
@@ -10,13 +11,11 @@
 
                 <div class="login-logo">
 
-<!--                    <img src="vistas/img/plantilla/logo-blanco-bloque.png" class="img-responsive" style="padding:30px 100px 0px 100px">-->
-
                 </div>
 
                 <div class="login-box-body">
                     
-                    <img src="vistas/img/plantilla/logo-dirisls-bloque.png" class="img-responsive" style="">
+                    <img src="vistas/img/plantilla/logo-dirisls-bloque.png" class="img-responsive">
 
                      <p class="login-box-msg" style="font-size: 25px;">Ingresar al sistema</p>
 
@@ -31,7 +30,7 @@
 
                         <div class="form-group has-feedback">
 
-                            <input type="password" class="form-control" placeholder="Contraseña" name="ingPassword" required>
+                             <input type="password" class="form-control" placeholder="Contraseña" name="ingPassword" required>
                             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
 
                         </div>
@@ -56,6 +55,9 @@
                 </div>
 
             </div>
+        </div>
+        <div class="col-lg12">
+            
         </div>
     </div>
 </div>

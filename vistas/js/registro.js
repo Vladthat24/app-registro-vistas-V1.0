@@ -31,9 +31,11 @@ $("#limpiarFuncionario").on("click", function () {
     localStorage.removeItem("dniLocalStore");
 
     $("#nuevDniVisitaFuncionario").val("");
+    $("#nuevDniVisitaFuncionario").removeClass('.')
     $("#nuevNombreFuncionario").val("");
     $("#nuevCargoFuncionario").val("");
     $("#nuevEntidadFuncionario").val("");
+
 })
 /*=============================================
  CARGAR MODAL DE FUNCIONARIO 
@@ -52,6 +54,7 @@ $("#agregarFuncionario").on("click", function () {
 $("#crearFuncionario").on("click", function () {
     $('#modalAgregarFuncionarioVisita').modal('show');
 })
+
 $("#agregarEntidades").on("click", function () {
     $('#modalAgregarEntidadVisita').modal('show');
 })
@@ -96,11 +99,28 @@ $("#buscarFuncionario").click(function () {
             if (!respuesta) {
 
                 $("#nuevDniVisitaFuncionario").parent()
-                    .after('<div class="alert alert-warning">El funcionario no existe en la base de datos, <i style="color:blue;"><strong>crear funcionario</strong></i></div>');
+                    .after(
+
+                        swal({
+                            type: "error",
+                            title: "¡EL usuario no exite en la base de datos, CREAR USUARIO!",
+                            showConfirmButton: true,
+                            confirmButtonText: "Cerrar"
+                        }).then(function (result) {
+                            if (result.value) {
+
+
+
+                            }
+                        })
+
+                    );
                 $("#nuevNombreFuncionario").val("");
                 $("#nuevCargoFuncionario").val("");
                 $("#nuevEntidadFuncionario").val("");
             } else {
+
+                $("#nuevIdFuncionario").val(respuesta["id"]);
                 $("#nuevNombreFuncionario").val(respuesta["nombre"]);
                 $("#nuevCargoFuncionario").val(respuesta["cargo"]);
 
@@ -177,7 +197,6 @@ function actualizarActivo() {
     })
 }
 
-
 /*=============================================
  CAPTURANDO LA CATEGORIA PARA ASIGNAR CÓDIGO - NUEVA
  =============================================*/
@@ -217,26 +236,11 @@ $("#nuevaCategoria").change(function () {
     })
 
 })
-/*=============================================
- CAPTURANDO LA TIPO DE DOCUMENTO PARA ASIGNAR CÓDIGO - NUEVA
- =============================================*/
-$("#nuevaDocumento").change(function () {
 
-    var tipoDocumento = $('#nuevaDocumento option:selected').html();
-    /* console.log(tipoDocumento); */
-    if (tipoDocumento !== "DNI") {
-        $("#dniPaciente").removeAttr("maxlength");
-    } else {
-        $("#dniPaciente").val('');
-        $("#dniPaciente").attr("maxlength", "8");
-    }
-
-})
 
 /*=============================================
  REVISAR SI EL USUARIO YA ESTÁ REGISTRADO
  =============================================*/
-
 $("#nuevoNombrePaciente").change(function () {
 
 
@@ -269,87 +273,8 @@ $("#nuevoNombrePaciente").change(function () {
 
     })
 });
-/*=============================================
- HACER VISIBLE EL CAMBO ENFERMEDAD SI SELECCIONA "SI"
- =============================================*/
-$("#nuevoSintomas").change(function () {
 
-    /* var sintomas = document.getElementById("nuevoSintomas").value; */
-    var sintomas = $(this).val();
 
-    if (sintomas == "SI") {
-        console.log("prueba del si");
-        $("#textSintomas").removeClass("hidden");
-
-    } else if (sintomas == "NO") {
-
-        console.log("prueba del no");
-        $("#textSintomas").addClass("hidden");
-    }
-
-});
-
-/*=============================================
- HACER VISIBLE EL CAMBO VIAJE SI SELECCIONA "SI"
- =============================================*/
-$("#nuevoViaje").change(function () {
-
-    /* var sintomas = document.getElementById("nuevoSintomas").value; */
-    var sintomas = $(this).val();
-
-    if (sintomas == "SI") {
-        console.log("prueba del si");
-        $("#textNumViaje").removeClass("hidden");
-        $("#textPaisViaje").removeClass("hidden");
-    } else if (sintomas == "NO") {
-
-        console.log("prueba del no");
-        $("#textNumViaje").addClass("hidden");
-        $("#textPaisViaje").addClass("hidden");
-    }
-
-});
-
-/*=============================================
- HACER VISIBLE EL CAMBO FIEBRE NUM SI SELECCIONA "SI"
- =============================================*/
-$("#nuevoFiebre").change(function () {
-
-    /* var sintomas = document.getElementById("nuevoSintomas").value; */
-    var fiebre = $(this).val();
-
-    if (fiebre == "SI") {
-        console.log("prueba del si");
-        $("#textFiebre").removeClass("hidden");
-
-    } else if (fiebre == "NO") {
-
-        console.log("prueba del no");
-        $("#textFiebre").addClass("hidden");
-    }
-
-});
-/*=============================================
- HACER VISIBLE EL CAMBO PACIENTE SE TOPO CON USUARIO SOSPECHOSO DE COVID19
- =============================================*/
-$("#nuevoContactoPersonaSospechosa").change(function () {
-
-    /* var sintomas = document.getElementById("nuevoSintomas").value; */
-    var sintomas = $(this).val();
-
-    if (sintomas == "SI") {
-        console.log("prueba del si");
-        $("#textDatosPersona").removeClass("hidden");
-        $("#textDatosPersona_cel").removeClass("hidden");
-
-    } else if (sintomas == "NO") {
-
-        console.log("prueba del no");
-        $("#textDatosPersona").addClass("hidden");
-        $("#textDatosPersona_cel").addClass("hidden");
-    }
-
-});
 
 $("#dniPaciente").change(function () {
     //$('#consultar').on('click', function () {
@@ -437,55 +362,7 @@ $("#editarCategoria").change(function () {
 })
 
 
-/*=============================================
- SUBIENDO LA FOTO DEL TICKET
- =============================================*/
 
-$(".nuevaImagen").change(function () {
-
-    var imagen = this.files[0];
-
-    /*=============================================
-     VALIDAMOS EL FORMATO DE LA IMAGEN SEA JPG O PNG
-     =============================================*/
-
-    if (imagen["type"] != "image/jpeg" && imagen["type"] != "image/png") {
-
-        $(".nuevaImagen").val("");
-
-        swal({
-            title: "Error al subir la imagen",
-            text: "¡La imagen debe estar en formato JPG o PNG!",
-            type: "error",
-            confirmButtonText: "¡Cerrar!"
-        });
-
-    } else if (imagen["size"] > 2000000) {
-
-        $(".nuevaImagen").val("");
-
-        swal({
-            title: "Error al subir la imagen",
-            text: "¡La imagen no debe pesar más de 2MB!",
-            type: "error",
-            confirmButtonText: "¡Cerrar!"
-        });
-
-    } else {
-
-        var datosImagen = new FileReader;
-        datosImagen.readAsDataURL(imagen);
-
-        $(datosImagen).on("load", function (event) {
-
-            var rutaImagen = event.target.result;
-
-            $(".previsualizar").attr("src", rutaImagen);
-
-        })
-
-    }
-})
 /*================================
  //REMOVER EL ID DEL COMBO
  ===================================*/
@@ -493,36 +370,21 @@ $("#editarCatg").on("click", function () {
 
     $("#editarCategoria").remove();
 })
-$("#editarSop").on("click", function () {
-
-    $("#editarSoporte").remove();
-})
-$("#editarEst").on("click", function () {
-
-    $("#editarEstado").remove();
-})
-$("#editarDist").on("click", function () {
-
-    $("#editarDistrito").remove();
-})
-$("#editarDocum").on("click", function () {
-    $("#editarDocumento").remove();
-})
 
 /*=============================================
  EDITAR TICKET   ACTIVO
  =============================================*/
 
-$(".tablaTicket tbody").on("click", "button.btnEditarTicket", function () {
+$(".tablaRegistro tbody").on("click", "button.btnEditarTicket", function () {
 
-    var idTicket = $(this).attr("idTicket");
+    var idRegistro = $(this).attr("idRegistro");
 
     var datos = new FormData();
-    datos.append("idTicket", idTicket);
+    datos.append("idRegistro", idRegistro);
 
     $.ajax({
 
-        url: "ajax/ticket.ajax.php",
+        url: "ajax/registro.ajax.php",
         method: "POST",
         data: datos,
         cache: false,
@@ -531,94 +393,28 @@ $(".tablaTicket tbody").on("click", "button.btnEditarTicket", function () {
         dataType: "json",
         success: function (respuesta) {
 
-            var datosCategoria = new FormData();
-            datosCategoria.append("idCategoria", respuesta["id_categoria"]);
+            var datosFuncionario = new FormData();
+            datosFuncionario.append("idFuncionario", respuesta["idfuncionario"]);
 
-            //            var datosSoporte = new FormData();
-            //            datosSoporte.append("idSoporte", respuesta["id_soporte"]);
 
-            var datosEstado = new FormData();
-            datosEstado.append("idEstado", respuesta["id_estado"]);
-
-            var datosDistrito = new FormData();
-            datosDistrito.append("idDistrito", respuesta["id_distrito"]);
-
-            var datosDocumento = new FormData();
-            datosDocumento.append("idDocumento", respuesta["id_documento"]);
-
-            //METODO AJAX PARA TRAER EL NOMBRE A LA VENTANA EDITAR 
+            //METODO AJAX PARA TRAER EL FUNCIONARIO EDITAR 
             $.ajax({
 
-                url: "ajax/categorias.ajax.php",
+                url: "ajax/funcionario.ajax.php",
                 method: "POST",
-                data: datosCategoria,
+                data: datosFuncionario,
                 cache: false,
                 contentType: false,
                 processData: false,
                 dataType: "json",
                 success: function (respuesta) {
 
-                    $("#editarCategoria").val(respuesta["id"]);
-                    $("#editarCategoria").html(respuesta["categoria"]);
+                    $("#editarNombreFuncionario").val(respuesta["id"]);
+
 
                 }
 
             })
-            //METODO AJAX PARA TRAER EL NOMBRE A LA VENTANA EDITAR 
-            $.ajax({
-
-                url: "ajax/documento.ajax.php",
-                method: "POST",
-                data: datosDocumento,
-                cache: false,
-                contentType: false,
-                processData: false,
-                dataType: "json",
-                success: function (respuesta) {
-
-                    $("#editarDocumento").val(respuesta["id"]);
-                    $("#editarDocumento").html(respuesta["documento"]);
-
-                }
-
-            })
-
-            $.ajax({
-
-                url: "ajax/estado.ajax.php",
-                method: "POST",
-                data: datosEstado,
-                cache: false,
-                contentType: false,
-                processData: false,
-                dataType: "json",
-                success: function (respuesta) {
-
-                    $("#editarEstado").val(respuesta["id"]);
-                    $("#editarEstado").html(respuesta["estado"]);
-
-                }
-
-            })
-
-            $.ajax({
-
-                url: "ajax/distrito.ajax.php",
-                method: "POST",
-                data: datosDistrito,
-                cache: false,
-                contentType: false,
-                processData: false,
-                dataType: "json",
-                success: function (respuesta) {
-
-                    $("#editarDistritoSelect").val(respuesta["id"]);
-                    $("#editarDistritoSelect").html(respuesta["distrito"]);
-
-                }
-
-            })
-            //CAPTURAR ID DEL MODAL EDITAR PARA MODIFICARLOS
 
 
             $("#editardniPaciente").val(respuesta["dni"]);
@@ -631,63 +427,6 @@ $(".tablaTicket tbody").on("click", "button.btnEditarTicket", function () {
             $("#editarComoABPaciente").val(respuesta["comoAB_paciente"]);
             $("#editarMuestra").val(respuesta["muestra_paciente"]);
             $("#editarMuestra").html(respuesta["muestra_paciente"]);
-
-
-            $("#editarFechaSintomas").val(respuesta["FechaSintomas"]);
-            $("#editarSintomas").val(respuesta["Sintomas"]);
-            $("#editarSintomas").html(respuesta["Sintomas"]);
-            $("#editarEnfermedad").val(respuesta["Enfermedad"]);
-            $("#editarTos").val(respuesta["Tos"]);
-            $("#editarTos").html(respuesta["Tos"]);
-            $("#editarDolorGarganta").val(respuesta["DolorGarganta"]);
-            $("#editarDolorGarganta").html(respuesta["DolorGarganta"]);
-            $("#editarFiebre").val(respuesta["Fiebre"]);
-            $("#editarFiebre").html(respuesta["Fiebre"]);
-            $("#editarFiebre_num").val(respuesta["fiebre_num"]);
-            $("#editarSecrecionNasal").val(respuesta["SecrecionNasal"]);
-            $("#editarSecrecionNasal").html(respuesta["SecrecionNasal"]);
-            $("#editarOtroSintomas").val(respuesta["OtroSintomas"]);
-            $("#editarViaje").val(respuesta["Viaje"]);
-            $("#editarViaje").html(respuesta["Viaje"]);
-            $("#editarPaisViaje").val(respuesta["pais_viaje"]);
-            $("#editarNumeroViaje").val(respuesta["NumeroViaje"]);
-            $("#editarContactoPersonaSospechosa").val(respuesta["ContactoPersonaSospechosa"]);
-            $("#editarContactoPersonaSospechosa").html(respuesta["ContactoPersonaSospechosa"]);
-            $("#editarDatosPersonaSospechosa").val(respuesta["DatosPersonaSospechosa"]);
-            $("#editarCelPersonaSospechosa").val(respuesta["CelPersonaSospechosa"]);
-
-            $("#editarCodigo").val(respuesta["codigo"]);
-
-            $("#editarDescripcion").val(respuesta["descripcion_paciente"]);
-
-            $("#editarObservacion").val(respuesta["observacion"]);
-
-            $("#editarNombre").val(respuesta["nombre"]);
-
-            $("#editarOficina").val(respuesta["oficina"]);
-
-            $("#editarArea").val(respuesta["area"]);
-
-            $("#editarCargo").val(respuesta["cargo"]);
-
-            $("#editarCel").val(respuesta["cel"]);
-
-            $("#editarSede").val(respuesta["sede"]);
-
-            $("#editarPiso").val(respuesta["piso"]);
-
-            /*           $("#editarSoporte").val(respuesta["soporte"]);
-                      $("#editarSoporte").html(respuesta["soporte"]); */
-
-
-
-            if (respuesta["imagen"] != "") {
-
-                $("#imagenActual").val(respuesta["imagen"]);
-
-                $(".previsualizar").attr("src", respuesta["imagen"]);
-
-            }
 
         }
 
@@ -738,7 +477,87 @@ $(".tablaTicket").on("click", ".btnImprimirTicket", function () {
     window.open("extensiones/tcpdf/pdf/printTicket.php?idTicket=" + idTicket, "_blank");
 }
 )
+/*=============================================
+SELECCIONAR FUNCIONARIO DE LISTA
+ =============================================*/
 
+$("#listarFuncionario").on("click", function () {
+    $('#modalListarFuncionario').modal('show');
+})
+
+
+
+$(".tablasListado tbody").on("click", "button.listarFuncionario", function () {
+
+
+    var idFuncionario = $(this).attr("idFuncionarioLista");
+
+    var datos = new FormData();
+    datos.append("idFuncionario", idFuncionario);
+
+    $.ajax({
+        url: "ajax/funcionario.ajax.php",
+        method: "POST",
+        data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (respuesta) {
+
+            $("#nuevIdFuncionario").val(respuesta["id"]);
+            $("#nuevDniVisitaFuncionario").val(respuesta["num_documento"]);
+            $("#nuevNombreFuncionario").val(respuesta["nombre"]);
+            $("#nuevCargoFuncionario").val(respuesta["cargo"]);
+
+
+            var datosEntidad = new FormData();
+            datosEntidad.append("idEntidad", respuesta["identidad"]);
+
+            //METODO AJAX PARA TRAER EL NOMBRE A LA VENTANA EDITAR 
+            $.ajax({
+
+                url: "ajax/entidad.ajax.php",
+                method: "POST",
+                data: datosEntidad,
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType: "json",
+                success: function (respuesta) {
+
+                    $("#nuevEntidadFuncionario").val(respuesta["entidad"]);
+
+
+                }
+
+            })
+
+            var datosTipoDocumento = new FormData();
+            datosTipoDocumento.append("idDocumento", respuesta["idtipo_documento"]);
+
+            $.ajax({
+
+                url: "ajax/documento.ajax.php",
+                method: "POST",
+                data: datosTipoDocumento,
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType: "json",
+                success: function (respuesta) {
+
+                    $("#nuevTipoDocumento").val(respuesta["tipo_documento"]);
+
+
+                }
+
+            })
+
+        }
+
+    })
+})
 
 /*=============================================
 RANGO DE FECHAS
@@ -780,8 +599,11 @@ CANCELAR RANGO DE FECHAS
 
 $(".daterangepicker.opensleft .range_inputs .cancelBtn").on("click", function () {
 
+
     localStorage.removeItem("capturarRango");
     localStorage.clear();
     window.location = "reporteticket";
+
+
 })
 

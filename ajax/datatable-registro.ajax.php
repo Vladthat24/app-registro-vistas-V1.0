@@ -43,14 +43,22 @@ class TablaRegistro
       $datosJson .= '[
 			      "' . ($i + 1) . '",
                               "' . $botones . '",                               
-                              "' . $registro[$i]["num_dni_funcionario"] . '",
-                              "' . $registro[$i]["nombre_funcionario"] . '",
-                              "' . $registro[$i]["cargo_funcionario"] . '",
-                              "' . $registro[$i]["entidad_funcionario"] . '",
+                              
+                              "' . $registro[$i]["TipoDocF"] . '",
+                              "' . $registro[$i]["num_documento"] . '",
+                              "' . $registro[$i]["nombre"] . '",
+                              "' . $registro[$i]["cargo"] . '",
+                              "' . $registro[$i]["ent_funcionario"] . '",
                               "' . $registro[$i]["motivo"] . '",
-                              "' . $registro[$i]["fecha_I"] . '",
-                              "' . $registro[$i]["fecha_S"] . '",
+                              "' . $registro[$i]["servidor_publico"] . '",
+                              "' . $registro[$i]["area_oficina_sp"] . '",
+                              "' . $registro[$i]["cargo"] . '",
+                              "' . $registro[$i]["fecha_ingreso"] . '",
+                              "' . $registro[$i]["hora_ingreso"] . '",
+                              "' . $registro[$i]["fecha_salida"] . '",
+                              "' . $registro[$i]["hora_salida"] . '",
                               "' . $registro[$i]["usuario"] . '"
+                             
 
 			    ],';
     }
