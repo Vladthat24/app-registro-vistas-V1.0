@@ -128,9 +128,10 @@ MODAL AGREGAR VISITA
 
                                 <p class="help-block"><strong>FUNCIONARIO VISITANTE:</strong></p>
 
+                                <!-- ENTRADA PARA SELECCIONAR CATEGORÍA DEL REGISTRO-->
                                 <div class="form-row">
 
-                                    <div class="from-group col-md-12">
+                                    <div class="form-group col-md-12">
 
                                         <div class="input-group">
 
@@ -141,11 +142,6 @@ MODAL AGREGAR VISITA
                                         </div>
 
                                     </div>
-                                    
-                                </div>
-
-                                <!-- ENTRADA PARA SELECCIONAR CATEGORÍA DEL REGISTRO-->
-                                <div class="form-row">
 
                                     <div class="form-group col-md-5">
 
@@ -304,70 +300,6 @@ MODAL AGREGAR VISITA
 
                             </div> <!-- FIN DEL LA COLUMNA DE FORMULARIO VISITANTE -->
 
-                            <!-- TABLA DE FENCIONARIOS VISITANTES -->
-                            <div class="col-lg-12">
-
-                                <table class="table table-bordered table-striped dt-responsive tablas tablasListado" width="100%">
-
-                                    <thead>
-
-                                        <tr>
-
-                                            <th style="width:10px">#</th>
-                                            <th>Acciones</th>
-                                            <th>Tipo Documento</th>
-                                            <th>N° Documento</th>
-                                            <th>Nombre</th>
-                                            <th>Entidad</th>
-                                            <th>Cargo</th>
-                                            <th>Fecha</th>
-                                        </tr>
-
-                                    </thead>
-
-                                    <tbody>
-
-                                        <?php
-
-                                        $item = null;
-                                        $valor = null;
-
-                                        $funcionario = ControladorFuncionario::ctrMostrarFuncionario($item, $valor);
-
-                                        foreach ($funcionario as $key => $value) {
-
-
-                                            echo ' <tr>                            
-            
-                                                <td>' . ($key + 1) . '</td>                       
-                                                    <td>
-
-                                                    <div class="btn-group">
-                                                        
-                                                        <button class="btn btn-warning  listarFuncionario" idFuncionarioLista="' . $value["id"] . '"><i class="fa fa-pencil"></i></button>
-
-                                                    </div>  
-
-                                                    </td>
-                                                <td>' . $value["tipo_documento"] . '</td>
-                                                <td>' . $value["num_documento"] . '</td>
-                                                <td>' . $value["nombre"] . '</td>
-                                                <td>' . $value["entidad"] . '</td>
-                                                <td>' . $value["cargo"] . '</td>
-                                                <td>' . $value["fecha_registro"] . '</td>
-                                            
-                                            </tr>';
-                                        }
-
-                                        ?>
-
-                                    </tbody>
-
-                                </table>
-
-
-
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -395,8 +327,106 @@ MODAL AGREGAR VISITA
             ?>
 
         </div>
+        <!--=====================================
+                SUBVENTA DE LISTADO DE FUNCIONARIOS
+                ======================================-->
+
+        <div class="modal-content">
+
+
+
+            <!--=====================================
+                    CABEZA DEL MODAL
+                    ======================================-->
+
+            <div class="modal-header" style="background:#3c8dbc; color:white">
+
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                <h4 class="modal-title">LISTADO DE FUNCIONARIOS</h4>
+
+            </div>
+
+            <!--=====================================
+                 CUERPO DEL MODAL
+             ======================================-->
+
+            <div class="modal-body">
+
+                <div class="content">
+
+                    <div class="row">
+
+                        <div class="col-lg-12">
+
+
+                            <table class="table table-bordered table-striped dt-responsive tablas tablasListado" width="100%">
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th style="width:10px">#</th>
+                                        <th>Acciones</th>
+                                        <th>Tipo Documento</th>
+                                        <th>N° Documento</th>
+                                        <th>Nombre</th>
+                                        <th>Entidad</th>
+                                        <th>Cargo</th>
+                                        <th>Fecha</th>
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                    <?php
+
+                                    $item = null;
+                                    $valor = null;
+
+                                    $funcionario = ControladorFuncionario::ctrMostrarFuncionario($item, $valor);
+
+                                    foreach ($funcionario as $key => $value) {
+
+
+                                        echo ' <tr>                            
+
+                                                    <td>' . ($key + 1) . '</td>                       
+                                                        <td>
+
+                                                        <div class="btn-group">
+                                                            
+                                                            <button class="btn btn-warning  listarFuncionario" idFuncionarioLista="' . $value["id"] . '"><i class="fa fa-pencil"></i></button>
+
+                                                        </div>  
+
+                                                        </td>
+                                                    <td>' . $value["tipo_documento"] . '</td>
+                                                    <td>' . $value["num_documento"] . '</td>
+                                                    <td>' . $value["nombre"] . '</td>
+                                                    <td>' . $value["entidad"] . '</td>
+                                                    <td>' . $value["cargo"] . '</td>
+                                                    <td>' . $value["fecha_registro"] . '</td>
+                                                
+                                                </tr>';
+                                    }
+
+                                    ?>
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
 
     </div>
+
+</div>
 
 </div>
 
@@ -436,11 +466,26 @@ MODAL EDITAR REGISTRO
 
                     <!-- ENTRADA PARA SELECCIONAR CATEGORÍA DEL REGISTRO-->
                     <div class="form-row">
+
                         <div class="form-group col-md-12">
 
                             <div class="input-group ">
 
                                 <span class="input-group-addon">Tipo Doc:</span>
+
+                                <input type="text" class="form-control input-lx" maxlength="15" id="editarTipoDocumento" name="editarDniVisitaFuncionario" readonly>
+
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group col-md-12">
+
+                            <div class="input-group ">
+
+                                <span class="input-group-addon">N° de Documento:</span>
 
                                 <input type="text" class="form-control input-lx" maxlength="15" id="editarDniVisitaFuncionario" name="editarDniVisitaFuncionario" readonly>
 
@@ -459,7 +504,7 @@ MODAL EDITAR REGISTRO
                                 <span class="input-group-addon">Nombre Funcionario:</span>
 
                                 <input type="text" class="form-control input-lx" id="editarNombreFuncionario" name="editarNombreFuncionario" readonly>
-                                <input class="hidden" type="text" id="editarIdFuncionario" name="editarIdFuncionario">
+                                <input class="hidden" type="text" id="editarIdRegistro" name="editarIdRegistro">
 
                             </div>
 
@@ -579,7 +624,7 @@ MODAL EDITAR REGISTRO
                     <!-- ENTRADA PARA FECHA DE REGISTRO -->
                     <div class="form-row">
 
-                        <p class="help-block">Fecha de Salida del Funcionario:</p>
+                        <p class="help-block"><strong>FECHA DE SALIDA DEL FUNCIONARIO:</strong></p>
 
                         <div class="form-group col-md-6">
 
@@ -622,12 +667,18 @@ MODAL EDITAR REGISTRO
 
                     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
 
-                    <button type="submit" class="btn btn-primary actualizar">Guardar Registro</button>
+                    <button type="submit" class="btn btn-primary">Guardar Registro</button>
 
                 </div>
 
             </form>
+            <?php
 
+            $editarVisita = new ControladorRegistro();
+            $editarVisita->ctrEditarRegistro();
+
+
+            ?>
 
 
         </div>
@@ -635,7 +686,6 @@ MODAL EDITAR REGISTRO
     </div>
 
 </div>
-
 
 <!--=====================================
 MODAL AGREGAR FUNCIONARIO

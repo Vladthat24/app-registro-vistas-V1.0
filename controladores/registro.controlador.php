@@ -2,9 +2,29 @@
 
 class ControladorRegistro
 {
+
+	/*=============================================
+	RANGO FECHAS
+	=============================================*/	
+
+	static public function ctrRangoFechasRegistro($fechaInicial, $fechaFinal){
+
+		$tabla = "Tap_RegistroVisita";
+
+		$respuesta = ModeloRegistro::mdlRangoFechasRegistro($tabla, $fechaInicial, $fechaFinal);
+
+		return $respuesta;
+		
+	}
+
+
+
+
+
   /* =============================================
       MOSTRAR TICKET DE ACUERDO AL PERIL
       ============================================= */
+
 
   static public function ctrMostrarRegistro($item, $valor)
   {
@@ -120,19 +140,24 @@ class ControladorRegistro
   static public function ctrEditarRegistro()
   {
 
-    if (isset($_POST["editarNumero_documento"])) {
+    if (isset($_POST["editarFechaSalida"])) {
 
-      if ($_POST["editarNumero_documento"]) {
+
+      if ($_POST["editarFechaSalida"]) {
 
 
         $tabla = "Tap_RegistroVisita";
 
+        
         $datos = array(
 
-          "id" => $_POST["editarIdFuncionario"],
+          "id" => $_POST["editarIdRegistro"],
           "fecha_salida" => $_POST["editarFechaSalida"],
           "hora_salida" => $_POST["editarHoraSalida"]
+          
         );
+
+
 
         $respuesta = ModeloRegistro::mdlEditarRegistro($tabla, $datos);
 

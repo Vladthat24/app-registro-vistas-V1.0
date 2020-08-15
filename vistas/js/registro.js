@@ -371,14 +371,23 @@ $("#editarCatg").on("click", function () {
     $("#editarCategoria").remove();
 })
 
+$('#editarFechaSalida').change(function () {
+    var valor12 = $(this).val();
+    console.log(valor12);
+})
+
+$('#editarHoraSalida').change(function () {
+    var valor1 = $(this).val();
+    console.log(valor1);
+})
+
 /*=============================================
- EDITAR TICKET   ACTIVO
+ EDITAR REGISTRO
  =============================================*/
 
-$(".tablaRegistro tbody").on("click", "button.btnEditarTicket", function () {
+$(".tablaRegistro tbody").on("click", "button.btnEditarRegistro", function () {
 
     var idRegistro = $(this).attr("idRegistro");
-
     var datos = new FormData();
     datos.append("idRegistro", idRegistro);
 
@@ -393,40 +402,79 @@ $(".tablaRegistro tbody").on("click", "button.btnEditarTicket", function () {
         dataType: "json",
         success: function (respuesta) {
 
-            var datosFuncionario = new FormData();
-            datosFuncionario.append("idFuncionario", respuesta["idfuncionario"]);
+            var datos = new FormData();
+            datos.append("idFuncionario", respuesta["idfuncionario"]);
 
-
-            //METODO AJAX PARA TRAER EL FUNCIONARIO EDITAR 
             $.ajax({
-
                 url: "ajax/funcionario.ajax.php",
                 method: "POST",
-                data: datosFuncionario,
+                data: datos,
                 cache: false,
                 contentType: false,
                 processData: false,
                 dataType: "json",
                 success: function (respuesta) {
 
-                    $("#editarNombreFuncionario").val(respuesta["id"]);
 
+                    $("#editarDniVisitaFuncionario").val(respuesta["num_documento"]);
+                    $("#editarNombreFuncionario").val(respuesta["nombre"]);
+                    $("#editarCargoFuncionario").val(respuesta["cargo"]);
+
+
+                    var datosEntidad = new FormData();
+                    datosEntidad.append("idEntidad", respuesta["identidad"]);
+
+                    //METODO AJAX PARA TRAER EL NOMBRE A LA VENTANA EDITAR 
+                    $.ajax({
+
+                        url: "ajax/entidad.ajax.php",
+                        method: "POST",
+                        data: datosEntidad,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        dataType: "json",
+                        success: function (respuesta) {
+
+                            $("#editarEntidadFuncionario").val(respuesta["entidad"]);
+
+
+                        }
+
+                    })
+
+                    console.log('Tipo Documento', respuesta["idtipo_documento"]);
+
+                    var datosTipoDocumento = new FormData();
+                    datosTipoDocumento.append("idDocumento", respuesta["idtipo_documento"]);
+
+                    $.ajax({
+
+                        url: "ajax/documento.ajax.php",
+                        method: "POST",
+                        data: datosTipoDocumento,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        dataType: "json",
+                        success: function (respuesta) {
+
+                            $("#editarTipoDocumento").val(respuesta["tipo_documento"]);
+
+
+                        }
+
+                    })
 
                 }
 
             })
-
-
-            $("#editardniPaciente").val(respuesta["dni"]);
-            $("#editarNombrePaciente").val(respuesta["nombre_paciente"]);
-            $("#editarEdadPaciente").val(respuesta["edad_paciente"]);
-            $("#editarDireccionPaciente").val(respuesta["direccion_paciente"]);
-            $("#editarDistritoPaciente").val(respuesta["distrito_paciente"]);
-            $("#editarCelularPaciente").val(respuesta["telefono_paciente"]);
-            $("#editarCelularPaciente").val(respuesta["telefono_paciente"]);
-            $("#editarComoABPaciente").val(respuesta["comoAB_paciente"]);
-            $("#editarMuestra").val(respuesta["muestra_paciente"]);
-            $("#editarMuestra").html(respuesta["muestra_paciente"]);
+            $('#editarIdRegistro').val(respuesta["id"]);
+            $('#editarUsuarioDigitador').val(respuesta["usuario"]);
+            $('#editarNombreFuncionarioLocal').val(respuesta["servidor_publico"]);
+            $('#editarAreaOfFuncionarioLocal').val(respuesta["area_oficina_sp"]);
+            $('#editarCargoFuncionarioLocal').val(respuesta["cargo"]);
+            $('#editarMotivo').val(respuesta["motivo"]);
 
         }
 
@@ -477,15 +525,18 @@ $(".tablaTicket").on("click", ".btnImprimirTicket", function () {
     window.open("extensiones/tcpdf/pdf/printTicket.php?idTicket=" + idTicket, "_blank");
 }
 )
+
 /*=============================================
-SELECCIONAR FUNCIONARIO DE LISTA
+MODAL PARA CREAR FUNCIONARIO DENTRO DEL MODAL DE REGISTRO
  =============================================*/
 
 $("#listarFuncionario").on("click", function () {
     $('#modalListarFuncionario').modal('show');
 })
 
-
+/*=============================================
+SELECCIONAR FUNCIONARIO DE LISTA
+ =============================================*/
 
 $(".tablasListado tbody").on("click", "button.listarFuncionario", function () {
 
@@ -506,6 +557,7 @@ $(".tablasListado tbody").on("click", "button.listarFuncionario", function () {
         success: function (respuesta) {
 
             $("#nuevIdFuncionario").val(respuesta["id"]);
+            console.log('IDFuncionario', respuesta["id"]);
             $("#nuevDniVisitaFuncionario").val(respuesta["num_documento"]);
             $("#nuevNombreFuncionario").val(respuesta["nombre"]);
             $("#nuevCargoFuncionario").val(respuesta["cargo"]);
@@ -533,6 +585,8 @@ $(".tablasListado tbody").on("click", "button.listarFuncionario", function () {
 
             })
 
+            console.log('Tipo Documento', respuesta["idtipo_documento"]);
+
             var datosTipoDocumento = new FormData();
             datosTipoDocumento.append("idDocumento", respuesta["idtipo_documento"]);
 
@@ -559,51 +613,4 @@ $(".tablasListado tbody").on("click", "button.listarFuncionario", function () {
     })
 })
 
-/*=============================================
-RANGO DE FECHAS
-=============================================*/
-
-$('#daterange-btn').daterangepicker(
-    {
-        ranges: {
-            'Hoy': [moment(), moment()],
-            'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-            'Últimos 7 días': [moment().subtract(6, 'days'), moment()],
-            'Últimos 30 días': [moment().subtract(29, 'days'), moment()],
-            'Este mes': [moment().startOf('month'), moment().endOf('month')],
-            'Último mes': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-        },
-        startDate: moment(),
-        endDate: moment()
-    },
-    function (start, end) {
-        $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-
-        var fechaInicial = start.format('YYYY-MM-DD');
-
-        var fechaFinal = end.format('YYYY-MM-DD');
-
-        var capturarRango = $("#daterange-btn span").html();
-
-        localStorage.setItem("capturarRango", capturarRango);
-
-        window.location = "index.php?ruta=reporteticket&fechaInicial=" + fechaInicial + "&fechaFinal=" + fechaFinal;
-
-    }
-
-)
-
-/*=============================================
-CANCELAR RANGO DE FECHAS
-=============================================*/
-
-$(".daterangepicker.opensleft .range_inputs .cancelBtn").on("click", function () {
-
-
-    localStorage.removeItem("capturarRango");
-    localStorage.clear();
-    window.location = "reporteticket";
-
-
-})
 

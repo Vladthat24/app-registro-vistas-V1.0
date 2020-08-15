@@ -1,49 +1,70 @@
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+        <div class="col col-lg-6">
+            <img src="vistas/img/plantilla/logo-dirisls-bloque copy.png" class="img-responsive" style="margin: 10px;">
+        </div>
+        <div class="col col-lg-5" style="margin-top: 20px;">
+
+            <strong class="text-$http_response_header" style="color: white;">“Año de la Universalización de la Salud”</strong>
+        </div>
+        <div class="col col-lg-1" style="margin-top: 20px;">
+
+            <a href="login" type="button" name="login" class="btn btn-primary">Iniciar Session</a>
+        </div>
+
+    </div>
+
+</div>
+
 <div class="content">
+
     <div class="row">
 
-        <h1 style="color: white; text-align: center">Plataforma Tecnológica - Registro de Visitas V. 1.0.0</h1>
-        <h2 style="color: white;text-align: center"><a href="https://www.dirislimasur.gob.pe/">Equipo de Trabajo Funcional Tecnologías de la Información - DIRIS LIMA SUR</a></h2>
-
+        <h1 style="color: white; text-align: center">Plataforma Tecnológica - Registro de Visitas</h1>
+        
         <section class="content">
 
             <div class="box">
 
                 <div class="box-header with-border">
 
-                    <button class="btn btn-primary" data-toggle="modal" id="agregarFuncionario">
+                    <form class="form-inline" method="POST" action="">
 
-                        Agregar Visita
+                        <label>Fecha Desde:</label>
 
-                    </button>
+                        <input type="date" class="form-control" placeholder="Start" name="fechaI" />
 
-                    <button class="btn btn-primary" id="actualizar"><img src="vistas/img/plantilla/android-o-iconos-adaptivos.gif" width="30px" /><strong> Actualizar Registros</strong></button>
-                    <?php
+                        <label>Hasta</label>
 
-                    if (isset($_GET["fechaInicial"])) {
-                    } else {
+                        <input type="date" class="form-control" placeholder="End" name="fechaFinal" value="<?php echo date("Y-m-d");?>"/>
+                        
+                        <button class="btn btn-primary" name="search">
 
-                        echo '<a href="vistas/modulos/descargar-reporte.php?reporte=reporte">';
-                    }
+                            <span class="glyphicon glyphicon-search"></span>
 
-                    ?>
+                        </button>
 
-                    <button class="btn btn-success" style="margin-top:5px">Descargar reporte en Excel</button>
-                    </a>
+                        <a href="consulta" type="button" class="btn btn-success">
+
+                            <span class="glyphicon glyphicon-refresh"></span>
+
+                        </a>
+
+                    </form>
+
                 </div>
-
-
 
                 <div class="box-body" id="resultados">
 
                     <br>
-                    <table class="table table-bordered table-striped dt-responsive tablaRegistro tablaActualizar" width="100%">
+                    <table class="table table-bordered table-striped dt-responsive tablas tablaActualizar" width="100%">
 
                         <thead>
 
                             <tr>
 
                                 <th style="width:10px">#</th>
-                                <th>ACCIONES</th>
+
                                 <th>Tipo Doc.</th>
                                 <th>N° Doc Visitante</th>
                                 <th>Nombre Visitante</th>
@@ -63,7 +84,52 @@
 
                         </thead>
 
+                        <tbody>
+                            <?php
 
+                            if (isset($_POST['search'])) {
+
+                               
+                                $d1 = DateTime::createFromFormat('Y-m-d', $_POST["fechaI"]);
+                                $d2 = DateTime::createFromFormat('Y-m-d', $_POST["fechaFinal"]);
+/*                              var_dump($d1->format('d/m/Y'));
+                                var_dump($d2->format('d/m/Y')); */
+                                $fechaInicial = $d1->format('d/m/Y');
+                                $fechaFinal = $d2->format('d/m/Y');
+
+                            } else {
+
+                                $fechaInicial = null;
+                                $fechaFinal = null;
+                            }
+
+                            $usuarios = ControladorRegistro::ctrRangoFechasRegistro($fechaInicial, $fechaFinal);
+
+                            foreach ($usuarios as $key => $value) {
+
+                                echo ' <tr>
+                                            <td>' . ($key + 1) . '</td>
+                                            <td class="text-center"><button class="btn btn-primary btn-xm">' . $value["TipoDocF"] . '</button></td>
+                                            <td><button class="btn btn-warning btn-xm">' . $value["num_documento"] . '</button></td>
+                                            <td>' . $value["nombre"] . '</td>
+                                            <td>' . $value["cargo"] . '</td>
+                                            <td>' . $value["ent_funcionario"] . '</td>
+                                            <td>' . $value["motivo"] . '</td>
+                                            <td>' . $value["servidor_publico"] . '</td>
+                                            <td>' . $value["area_oficina_sp"] . '</td>
+                                            <td>' . $value["cargo"] . '</td>
+                                            <td>' . $value["fecha_ingreso"] . '</td>
+                                            <td>' . $value["hora_ingreso"] . '</td>
+                                            <td>' . $value["fecha_salida"] . '</td>
+                                            <td>' . $value["hora_salida"] . '</td>
+                                            <td>' . $value["usuario"] . '</td>
+
+
+                                        </tr>';
+                            }
+
+                            ?>
+                        </tbody>
 
                     </table>
 

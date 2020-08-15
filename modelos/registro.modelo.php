@@ -5,33 +5,96 @@ require_once "conexion.php";
 class ModeloRegistro
 {
     /* =============================================
-      MOSTRAR TICKET
+      MOSTRAR RANGOS DE FECHA
       ============================================= */
-    static public function mdlMostrarRegistroReporte($tabla, $item, $valor)
+    static public function mdlRangoFechasRegistro($tabla, $fechaInicial, $fechaFinal)
     {
 
-        if ($item != null) {
+        if ($fechaInicial == null) {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item ORDER BY id DESC");
-
-            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+            $stmt = Conexion::conectar()->prepare("SELECT Tap_RegistroVisita.id as id,
+            (SELECT tipo_documento FROM Tap_TipoDocumento WHERE id=Tap_Funcionario.idtipo_documento) as TipoDocF,    
+            Tap_Funcionario.num_documento as num_documento,
+            Tap_Funcionario.nombre as nombre,
+            Tap_Funcionario.cargo as cargo,
+            (SELECT entidad FROM Tap_Entidad WHERE id=Tap_Funcionario.identidad) as ent_funcionario,
+            Tap_RegistroVisita.motivo as motivo,
+            Tap_RegistroVisita.servidor_publico as servidor_publico,
+            Tap_RegistroVisita.area_oficina_sp as area_oficina_sp,
+            Tap_RegistroVisita.cargo as cargo,
+            FORMAT(CONVERT(date,Tap_RegistroVisita.fecha_ingreso),'dd/MM/yyyy') as fecha_ingreso,
+			CONVERT(varchar(25), CAST(Tap_RegistroVisita.hora_ingreso as TIME),100) as hora_ingreso,
+            FORMAT(Tap_RegistroVisita.fecha_salida,'dd/MM/yyyy') as fecha_salida,
+            Tap_RegistroVisita.hora_salida as hora_salida,
+            Tap_RegistroVisita.usuario as usuario  
+            FROM $tabla left join Tap_Funcionario  on 
+            Tap_RegistroVisita.idfuncionario=Tap_Funcionario.id 
+            ORDER BY Tap_RegistroVisita.id DESC");
 
             $stmt->execute();
 
-            return $stmt->fetch();
+            return $stmt->fetchAll();
+
+        } else if ($fechaInicial == $fechaFinal) {
+
+            $stmt = Conexion::conectar()->prepare("SELECT Tap_RegistroVisita.id as id,
+            (SELECT tipo_documento FROM Tap_TipoDocumento WHERE id=Tap_Funcionario.idtipo_documento) as TipoDocF,    
+            Tap_Funcionario.num_documento as num_documento,
+            Tap_Funcionario.nombre as nombre,
+            Tap_Funcionario.cargo as cargo,
+            (SELECT entidad FROM Tap_Entidad WHERE id=Tap_Funcionario.identidad) as ent_funcionario,
+            Tap_RegistroVisita.motivo as motivo,
+            Tap_RegistroVisita.servidor_publico as servidor_publico,
+            Tap_RegistroVisita.area_oficina_sp as area_oficina_sp,
+            Tap_RegistroVisita.cargo as cargo,
+            FORMAT(CONVERT(date,Tap_RegistroVisita.fecha_ingreso),'dd/MM/yyyy') as fecha_ingreso,
+			CONVERT(varchar(25), CAST(Tap_RegistroVisita.hora_ingreso as TIME),100) as hora_ingreso,
+            FORMAT(Tap_RegistroVisita.fecha_salida,'dd/MM/yyyy') as fecha_salida,
+            Tap_RegistroVisita.hora_salida as hora_salida,
+            Tap_RegistroVisita.usuario as usuario  
+            FROM $tabla left join Tap_Funcionario  on 
+            Tap_RegistroVisita.idfuncionario=Tap_Funcionario.id 
+            WHERE FORMAT(CONVERT(date,Tap_RegistroVisita.fecha_ingreso),'dd/MM/yyyy')
+            like '%$fechaInicial%' ORDER BY Tap_RegistroVisita.id DESC");
+
+            /* $stmt->bindParam(":", $fechaInicial, PDO::PARAM_STR); */
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+
         } else {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ORDER BY id DESC");
+				$stmt = Conexion::conectar()->prepare("SELECT Tap_RegistroVisita.id as id,
+                (SELECT tipo_documento FROM Tap_TipoDocumento WHERE id=Tap_Funcionario.idtipo_documento) as TipoDocF,    
+                Tap_Funcionario.num_documento as num_documento,
+                Tap_Funcionario.nombre as nombre,
+                Tap_Funcionario.cargo as cargo,
+                (SELECT entidad FROM Tap_Entidad WHERE id=Tap_Funcionario.identidad) as ent_funcionario,
+                Tap_RegistroVisita.motivo as motivo,
+                Tap_RegistroVisita.servidor_publico as servidor_publico,
+                Tap_RegistroVisita.area_oficina_sp as area_oficina_sp,
+                Tap_RegistroVisita.cargo as cargo,
+                FORMAT(CONVERT(date,Tap_RegistroVisita.fecha_ingreso),'dd/MM/yyyy') as fecha_ingreso,
+                CONVERT(varchar(25), CAST(Tap_RegistroVisita.hora_ingreso as TIME),100) as hora_ingreso,
+                FORMAT(Tap_RegistroVisita.fecha_salida,'dd/MM/yyyy') as fecha_salida,
+                Tap_RegistroVisita.hora_salida as hora_salida,
+                Tap_RegistroVisita.usuario as usuario  
+                FROM $tabla left join Tap_Funcionario  on 
+                Tap_RegistroVisita.idfuncionario=Tap_Funcionario.id 
+                WHERE FORMAT(CONVERT(date,Tap_RegistroVisita.fecha_ingreso),'dd/MM/yyyy')
+                BETWEEN '$fechaInicial' AND '$fechaFinal' ORDER BY Tap_RegistroVisita.id DESC");
 
             $stmt->execute();
 
             return $stmt->fetchAll();
         }
-
-        $stmt->close();
-
-        $stmt = null;
     }
+
+    /* =============================================
+      MOSTRAR REGISTRO
+      ============================================= */
+
     static public function mdlMostrarRegistro($tabla, $item, $valor)
     {
         //CAPTURAR DATOS PARA EL EDIT EN EL FORMULARIO
@@ -47,7 +110,7 @@ class ModeloRegistro
         } else {
 
             $stmt = Conexion::conectar()->prepare("SELECT Tap_RegistroVisita.id as id,
-            (SELECT tipo_documento FROM Tap_TipoDocumento WHERE id=Tap_Funcionario.id) as TipoDocF,    
+            (SELECT tipo_documento FROM Tap_TipoDocumento WHERE id=Tap_Funcionario.idtipo_documento) as TipoDocF,    
             Tap_Funcionario.num_documento as num_documento,
             Tap_Funcionario.nombre as nombre,
             Tap_Funcionario.cargo as cargo,
@@ -120,8 +183,8 @@ class ModeloRegistro
     static public function mdlEditarRegistro($tabla, $datos)
     {
 
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET 
-        fecha_salida=:fecha_salida,hora_salida=:hora_salida
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla 
+        SET fecha_salida=:fecha_salida,hora_salida=:hora_salida
         WHERE id = :id");
 
         $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);

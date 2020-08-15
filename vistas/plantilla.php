@@ -106,14 +106,14 @@
   <script src="vistas/bower_components/moment/min/moment.min.js"></script>
   <script src="vistas/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
 
- <!-- datepicker-->
- <script src="vistas/bower_components/datepicker/jquery-ui.js"></script>
+  <!-- datepicker-->
+  <script src="vistas/bower_components/datepicker/jquery-ui.js"></script>
 
   <!-- dateTimePicker-->
   <script src="vistas/bower_components/datetimepicker/bootstrap-datetimepicker.js"></script>
 
-    <!-- select 2-->
-    <script src="vistas/bower_components/select2/dist/js/select2.js"></script>
+  <!-- select 2-->
+  <script src="vistas/bower_components/select2/dist/js/select2.js"></script>
 
 </head>
 
@@ -125,9 +125,9 @@
 
   <?php
   if (isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] == "ok") {
-    
+
     @session_start();
-  
+
     echo '<div class="wrapper">';
 
     /* =============================================
@@ -178,18 +178,31 @@
       include "modulos/inicio.php";
     }
 
+
     /* =============================================
               FOOTER
-              ============================================= */
+    ============================================= */
 
     include "modulos/footer.php";
 
     echo '</div>';
-  } else  {
-    
-    include "modulos/login.php";
-    
+  } else if (isset($_GET["ruta"])) {
+
+    if ($_GET["ruta"] == "login" || $_GET["ruta"] == "consulta") {
+
+      include "modulos/" . $_GET["ruta"] . ".php";
+    }
+
+  } else {
+
+    include "modulos/consulta.php";
   }
+
+
+
+
+
+
   ?>
 
 
